@@ -1,0 +1,112 @@
+<!-- <nb-card class="select-company-card" size="tiny">
+  <nb-card-header>
+    Filtro
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Selecione um usuário</label> <br />
+
+        <nb-select
+          selectedChange="Selecione um usuário"
+          (selectedChange)="fetchUserPermissions(filter.selectedUser)"
+          [(selected)]="filter.selectedUser"
+        >
+          <nb-option value="0">Escolha um usuário</nb-option>
+          <nb-option
+            *ngFor="let user of users; index as i"
+            [value]="user.codigo"
+          >
+            {{ user.nome }}
+          </nb-option>
+        </nb-select>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<div class="row" *ngIf="filter.selectedUser !== '0'">
+  <div class="col-md-5">
+    <nb-card size="medium">
+      <nb-card-header>
+        Permissões para adicionar ({{ permissions.length }})
+        <br />
+        <div class="checkAllGsys">
+          <nb-checkbox (checkedChange)="PermissionsToAddAll($event)"
+            >Todos</nb-checkbox
+          >
+        </div>
+      </nb-card-header>
+
+      <nb-card-body class="nopadding">
+        <small *ngIf="permissions.length <= 0"
+          >Não há permissões adicionadas</small
+        >
+        <nb-list *ngIf="permissions.length > 0">
+          <nb-list-item *ngFor="let permission of permissions">
+            <nb-checkbox
+              (checkedChange)="setPermission(permission.id, $event)"
+              [checked]="permission.check"
+            >
+              {{ permission.nome }}</nb-checkbox
+            >
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-1 btn-actions">
+    <button
+      nbTooltip="Remover permissão"
+      nbTooltipPlacement="top"
+      nbTooltipStatus="danger"
+      nbButton
+      status="danger"
+      [disabled]="PermissionsAddedTemp.length === 0"
+      (click)="removePermissionsInUser()"
+    >
+      <nb-icon icon="arrow-back-outline"></nb-icon>
+    </button>
+    <br />
+    <button
+      nbTooltip="Adicionar permissão"
+      nbTooltipPlacement="bottom"
+      nbTooltipStatus="success"
+      nbButton
+      status="success"
+      [disabled]="PermissionsToAddTemp.length === 0"
+      (click)="setPermissionsInUser()"
+    >
+      <nb-icon icon="arrow-forward-outline"></nb-icon>
+    </button>
+  </div>
+  <div class="col-md-6">
+    <nb-card size="medium">
+      <nb-card-header>
+        Permissões adicionadas ({{ permissionsAdded.length }})
+        <br />
+        <div class="checkAllGsys">
+          <nb-checkbox
+            (checkedChange)="PermissionsAddedAll($event)"
+            [checked]="checkRemove"
+            >Todos</nb-checkbox
+          >
+        </div>
+      </nb-card-header>
+      <nb-card-body class="nopadding">
+        <small *ngIf="permissionsAdded.length <= 0"
+          >Não há permissões adicionadas</small
+        >
+        <nb-list *ngIf="permissionsAdded.length > 0">
+          <nb-list-item *ngFor="let permissionAdded of permissionsAdded">
+            <nb-checkbox
+              (checkedChange)="setPermissionsadded(permissionAdded.id, $event)"
+              [checked]="permissionAdded.check"
+              >{{ permissionAdded.nome }}</nb-checkbox
+            >
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div> -->

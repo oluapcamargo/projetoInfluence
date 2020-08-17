@@ -1,0 +1,24 @@
+<ngx-loading-bar color="#8B247D"></ngx-loading-bar>
+<nb-layout>
+  <nb-layout-header *ngIf="isAuthenticated" fixed>
+    <app-topbar class="w-100"></app-topbar>
+  </nb-layout-header>
+
+  <nb-sidebar
+    responsive
+    (mouseenter)="expandSidebar()"
+    (mouseleave)="compactSidebar()"
+    state="compacted"
+    *ngIf="isAuthenticated"
+  >
+    <app-sidebar></app-sidebar>
+  </nb-sidebar>
+
+  <nb-layout-column style="background-color: #EDF1F7; z-index: 1;">
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+
+  <nb-layout-footer *ngIf="isAuthenticated">
+    <app-footer></app-footer>
+  </nb-layout-footer>
+</nb-layout>

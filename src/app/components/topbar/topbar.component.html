@@ -1,0 +1,39 @@
+<div id="topbar" class="container-fluid px-0 d-flex w-100">
+  <div class="row no-gutters w-100 align-items-center">
+    <div class="col-10 d-flex justify-content-start">
+      <div class="logo-container">
+        <nb-action
+          class="sidebar-toggle-action"
+          (mouseenter)="expandSidebar()"
+          (click)="toggle()"
+        >
+          <nb-icon icon="menu-2-outline"></nb-icon>
+        </nb-action>
+        <div id="vertical-separator"></div>
+        <a class="logo" href="{{ routerLogo }}">
+          <img style="width: 100px;" src="../../../assets/images/logo.png" />
+        </a>
+      </div>
+    </div>
+    <div class="col-2 d-flex justify-content-end">
+      <nb-actions size="small">
+        <nb-action
+          *ngIf="showMessageButton"
+          class="control-item"
+          icon="email-outline"
+        ></nb-action>
+        <nb-action
+          *ngIf="showNotificationButton"
+          class="control-item"
+          icon="bell-outline"
+        ></nb-action>
+        <nb-action class="user-action">
+          <nb-user
+            [nbContextMenu]="user?.menu"
+            [name]="user?.nome || user?.login"
+          ></nb-user>
+        </nb-action>
+      </nb-actions>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,614 @@
+<form
+  class="container"
+  [formGroup]="storeForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="off"
+>
+  <nb-card class="container" [nbSpinner]="isFetching" nbSpinnerSize="giant">
+    <nb-card-header>
+      <div class="row">
+        <div class="col titulo d-flex align-items-center">
+          Edição de Estabelecimentos
+        </div>
+        <div class="col text-right" *ngIf="data && data.situacao">
+          <div
+            class="badge-container d-flex justify-content-end align-items-center"
+            style="height: 40px;"
+          >
+            <div
+              class="badge-status"
+              [ngClass]="{
+                info: data.situacao === 1,
+                success: data.situacao === 2,
+                warning: data.situacao === 3,
+                danger: !data.situacao || data.situacao === 4
+              }"
+            >
+              <span>
+                Empresa
+                {{
+                  data.situacao === 1
+                    ? "Aguardando avaliação"
+                    : data.situacao === 2
+                    ? "Ativa"
+                    : data.situacao === 3
+                    ? "Inativa"
+                    : "Reprovada"
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body class="p-0">
+      <nb-tabset fullWidth>
+        <nb-tab status="info" tabTitle="Dados Gerais">
+          <fieldset [disabled]="finish">
+            <!-- Informações Gerais -->
+            <div class="row pt-3">
+              <div class="col">
+                <h5 class="form-title">
+                  Informações gerais
+                </h5>
+              </div>
+            </div>
+            <div class="row pb-4">
+              <div class="col">
+                <small class="text-gray">
+                  As informações abaixo serão úteis para identificar a empresa
+                  no sistema iSalon.
+                </small>
+              </div>
+            </div>
+
+            <!-- CNPJ e Nome -->
+            <div class="row py-2">
+              <!-- CNPJ -->
+              <div class="col-sm-12 col-md-4 col-lg-3 py-2">
+                <label for="cnpj" class="input-title">CNPJ *</label>
+                <input
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="cnpj"
+                  type="text"
+                  placeholder="__.___.___/____-__"
+                  mask="00.000.000/0000-00"
+                  formControlName="cnpj"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'cnpj'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Nome Empresa -->
+              <div class="col-sm-12 col-md-8 col-lg-9 py-2">
+                <label for="nome" class="input-title">
+                  Nome *
+                </label>
+                <input
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="nome"
+                  type="text"
+                  placeholder="ex: Empresa Exemplo"
+                  maxlength="100"
+                  formControlName="nome"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'nome'"
+                ></app-erros-input>
+              </div>
+            </div>
+
+            <!--Tipo, Responsável e Taxa iSalon(%) -->
+            <div class="row py-2">
+              <!-- Tipo -->
+              <div class="col-sm-12 col-md-4 col-lg-3 py-2">
+                <label>Tipo</label>
+                <ng-select
+                  class="custom"
+                  [required]="false"
+                  bindValue="id"
+                  bindLabel="label"
+                  placeholder="Selecione um tipo"
+                  notFoundText="Tipo não encontrado"
+                  [items]="itemsStoreType"
+                  formControlName="tipoEstabelecimento"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'tipoEstabelecimento'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Responsável -->
+              <div class="col-sm-12 col-md-5 col-lg-6 py-2">
+                <label for="responsavel" class="input-title">
+                  Responsável *
+                </label>
+                <input
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="responsavel"
+                  type="text"
+                  placeholder="ex: Responsável Exemplo"
+                  maxlength="100"
+                  formControlName="responsavel"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'responsavel'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Taxa iSalon -->
+              <div class="col-sm-12 col-md-3 col-lg-3 py-2">
+                <label for="taxa" class="input-title">
+                  Taxa iSalon
+                </label>
+                <input
+                  nbInput
+                  fullWidth
+                  #input
+                  id="taxa"
+                  type="text"
+                  mask="separator.2"
+                  suffix="%"
+                  maxlength="7"
+                  placeholder="ex: 10,25%"
+                  formControlName="percentualTaxaIsalon"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'percentualTaxaIsalon'"
+                ></app-erros-input>
+              </div>
+            </div>
+
+            <!-- Destaque -->
+            <div class="row py-2">
+              <!-- Destaque -->
+              <div class="col-12 d-flex align-items-center py-3">
+                <nb-checkbox formControlName="flagDestaque">
+                  Empresa em destaque
+                </nb-checkbox>
+              </div>
+            </div>
+
+            <!-- Descrição -->
+            <div class="row py-2">
+              <!-- Descrição -->
+              <div class="col-12 py-2">
+                <label for="descricao" class="input-title">
+                  Descrição *
+                </label>
+                <textarea
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="descricao"
+                  type="text"
+                  placeholder="Informe uma descrição de no máximo 8.000 dígitos"
+                  maxlength="8000"
+                  rows="6"
+                  formControlName="descricao"
+                ></textarea>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'descricao'"
+                ></app-erros-input>
+                <div class="col-12 px-0 text-right">
+                  <small class="text-gray">
+                    {{ dscLetterCounter || 0 }}/8000
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="separator col"></div>
+            </div>
+
+            <!-- Dados de Localização -->
+            <div class="row pt-4">
+              <div class="col">
+                <h5 class="form-title">
+                  Dados de Localização
+                </h5>
+              </div>
+            </div>
+            <div class="row pb-4">
+              <div class="col">
+                <small class="text-gray">
+                  Será necessário informar uma UF para poder selecionar um
+                  município e posteriormente selecionar o bairro.
+                </small>
+              </div>
+            </div>
+
+            <!-- CEP, Número e Logradouro -->
+            <div class="row align-items-baseline py-2">
+              <!-- CEP -->
+              <div class="col-sm-12 col-md-3 col-lg-4 py-2">
+                <label for="cep" class="input-title">CEP *</label>
+                <input
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="cnpj"
+                  type="text"
+                  minlength="8"
+                  maxlength="10"
+                  placeholder="ex: 29.000-100"
+                  mask="00.000-000"
+                  formControlName="cep"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'cep'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Número -->
+              <div class="col-sm-12 col-md-3 col-lg-2 py-2">
+                <label for="numeroEndereco" class="input-title">Número *</label>
+                <input
+                  fullWidth
+                  nbInput
+                  #input
+                  required
+                  id="numeroEndereco"
+                  type="text"
+                  mask="9999999999"
+                  maxlength="10"
+                  placeholder="ex: 103"
+                  formControlName="numeroEndereco"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'numeroEndereco'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Logradouro -->
+              <div class="col-sm-12 col-md-6 col-lg-6 py-2">
+                <label for="logradouro" class="input-title">Logradouro *</label>
+                <input
+                  fullWidth
+                  nbInput
+                  #input
+                  required
+                  id="logradouro"
+                  type="text"
+                  maxlength="500"
+                  placeholder="ex: Avenida de Exemplo"
+                  formControlName="rua"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'rua'"
+                ></app-erros-input>
+              </div>
+            </div>
+
+            <!-- Estado, Município e Bairro -->
+            <div class="row align-items-baseline py-2">
+              <!-- Estado -->
+              <div class="col-sm-12 col-md-4 col-lg-4 py-2">
+                <label>Estado</label>
+                <ng-select
+                  class="custom"
+                  [required]="false"
+                  bindValue="id"
+                  bindLabel="nome"
+                  placeholder="Selecione um estado"
+                  notFoundText="Estado não encontrado"
+                  [items]="estados"
+                  formControlName="ufId"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'ufId'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Municipio -->
+              <div class="col-sm-12 col-md-4 col-lg-4 py-2">
+                <label>
+                  Município
+                  <i>(é necessário informar uma UF)</i>
+                </label>
+                <ng-select
+                  class="custom"
+                  bindValue="id"
+                  bindLabel="nome"
+                  placeholder="Selecione um município"
+                  notFoundText="Município não encontrado"
+                  [items]="municipios"
+                  formControlName="municipioId"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'municipioId'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Bairro -->
+              <div class="col-sm-12 col-md-4 col-lg-4 py-2">
+                <label>
+                  Bairro
+                  <i>(é necessário informar um Município)</i>
+                </label>
+                <ng-select
+                  class="custom"
+                  bindValue="id"
+                  bindLabel="nome"
+                  placeholder="Selecione uma bairro"
+                  notFoundText="Bairro não encontrado"
+                  [items]="bairros"
+                  formControlName="bairroId"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'bairroId'"
+                ></app-erros-input>
+              </div>
+            </div>
+
+            <!-- Complemento -->
+            <div class="row align-items-baseline py-2">
+              <!-- Complemento -->
+              <div class="col-sm-12 col-md-12 col-lg-12 py-2">
+                <label for="complementoEndereco" class="input-title">
+                  Complemento
+                </label>
+                <input
+                  fullWidth
+                  nbInput
+                  #input
+                  id="complementoEndereco"
+                  type="text"
+                  maxlength="500"
+                  placeholder="ex: 3º Andar"
+                  formControlName="complementoEndereco"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="separator col"></div>
+            </div>
+
+            <!-- Contato -->
+            <div class="row pt-4">
+              <div class="col">
+                <h5 class="form-title">
+                  Contato
+                </h5>
+              </div>
+            </div>
+            <div class="row pb-4">
+              <div class="col">
+                <small class="text-gray">
+                  As informações abaixo serão utilizadas para contatar a
+                  empresa.
+                </small>
+              </div>
+            </div>
+
+            <!-- Telefone, E-mail e Site -->
+            <div class="row align-items-baseline py-2">
+              <!-- Telefone ou Celular -->
+              <div class="col-sm-12 col-md-4 col-lg-4 py-2">
+                <label for="telefone">
+                  Telefone fixo ou Celular *
+                </label>
+                <input
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="telefone"
+                  type="text"
+                  placeholder="(__)_____ - ____"
+                  mask="(00) 0000-0000||(00) 0 0000-0000"
+                  formControlName="telefone"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'telefone'"
+                ></app-erros-input>
+              </div>
+
+              <!-- E-mail -->
+              <div class="col-sm-12 col-md-4 col-lg-4 py-2">
+                <label for="enderecoEmail">
+                  E-mail *
+                </label>
+                <input
+                  fullWidth
+                  nbInput
+                  required
+                  #input
+                  id="enderecoEmail"
+                  type="email"
+                  maxlength="50"
+                  placeholder="ex: email@provedor.com.br"
+                  formControlName="enderecoEmail"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'enderecoEmail'"
+                ></app-erros-input>
+              </div>
+
+              <!-- Site -->
+              <div class="col-sm-12 col-md-4 col-lg-4 py-2">
+                <label for="enderecoSite">
+                  Site
+                </label>
+                <input
+                  fullWidth
+                  nbInput
+                  #input
+                  id="enderecoSite"
+                  type="text"
+                  maxlength="1000"
+                  placeholder="ex: www.meusite.com.br"
+                  formControlName="enderecoSite"
+                />
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'telefone'"
+                ></app-erros-input>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="separator col"></div>
+            </div>
+
+            <!-- Disponibilidade -->
+            <div class="row pt-4">
+              <div class="col">
+                <h5 class="form-title">
+                  Disponibilidade
+                </h5>
+              </div>
+            </div>
+
+            <div class="row pb-4">
+              <div class="col">
+                <small class="text-gray">
+                  Informe os dias e horários de funcionamento da empresa. Caso
+                  haja alguma ocasião especial, iforme-a logo após preencher os
+                  dias de funcionamento padrão.
+                </small>
+              </div>
+            </div>
+
+            <div class="row py-3">
+              <div class="col">
+                <strong>
+                  Dias de atendimento padrão *
+                </strong>
+              </div>
+            </div>
+
+            <div class="row align-items-baseline py-2">
+              <div class="col-sm-12 col-md-6 col-lg-3 py-2">
+                <label for="diaInicioAtendimento">
+                  Dia de início *
+                </label>
+                <ng-select
+                  required
+                  id="diaInicioAtendimento"
+                  class="custom"
+                  bindValue="id"
+                  bindLabel="label"
+                  placeholder="Selecione um dia da semana"
+                  notFoundText="Dia da semana não encontrado"
+                  [items]="daysOfWeek"
+                  formControlName="diaInicioAtendimentoPadrao"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'diaInicioAtendimentoPadrao'"
+                ></app-erros-input>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-3 py-2">
+                <label for="diaFimAtendimento">
+                  Dia final *
+                </label>
+                <ng-select
+                  required
+                  id="diaFimAtendimento"
+                  class="custom"
+                  bindValue="id"
+                  bindLabel="label"
+                  placeholder="Selecione um dia da semana"
+                  notFoundText="Dia da semana não encontrado"
+                  [items]="daysOfWeek"
+                  formControlName="diaFimAtendimentoPadrao"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'diaFimAtendimentoPadrao'"
+                ></app-erros-input>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-2 py-2">
+                <label for="horaInicioAtendimento">
+                  Horário de início *
+                </label>
+                <ng-select
+                  required
+                  id="horaInicioAtendimento"
+                  class="custom"
+                  bindValue="id"
+                  bindLabel="label"
+                  placeholder="Selecione um horário"
+                  notFoundText="Horário não encontrado"
+                  [items]="hoursOfDay"
+                  formControlName="horaInicioAtendimentoPadrao"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'horaInicioAtendimentoPadrao'"
+                ></app-erros-input>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-2 py-2">
+                <label for="horaFimAtendimento">
+                  Horário de fim *
+                </label>
+                <ng-select
+                  required
+                  id="horaFimAtendimento"
+                  class="custom"
+                  bindValue="id"
+                  bindLabel="label"
+                  placeholder="Selecione um horário"
+                  notFoundText="Horário não encontrado"
+                  [items]="hoursOfDay"
+                  formControlName="horaFimAtendimentoPadrao"
+                ></ng-select>
+                <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'horaFimAtendimentoPadrao'"
+                ></app-erros-input>
+              </div>
+            </div>
+
+            <div class="row align-items-baseline py-2"></div>
+          </fieldset>
+        </nb-tab>
+        <nb-tab status="info" tabTitle="Tipos de Serviço"></nb-tab>
+        <nb-tab status="info" tabTitle="Profissionais"></nb-tab>
+        <nb-tab status="info" tabTitle="Fotos"></nb-tab>
+      </nb-tabset>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="row d-flex justify-content-end">
+        <button nbButton type="button" status="basic" class="mx-2 my-3">
+          Cancelar
+        </button>
+        <button nbButton type="submit" status="success" class="mx-2 my-3">
+          Salvar
+        </button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</form>

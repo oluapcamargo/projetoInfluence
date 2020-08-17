@@ -1,0 +1,131 @@
+<nb-card class="select-company-card" size="tiny">
+  <nb-card-header>
+    Filtro
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Selecione um grupo</label> <br />
+
+        <nb-select
+          selectedChange="Selecione um grupo"
+          (selectedChange)="fetchGroupPermissions($event)"
+          selected="filter.selectedGroup"
+        >
+          <nb-option value="0">Escolha um grupo</nb-option>
+          <nb-option
+            (selectedChange)="setFilterGroup(group.id, $event)"
+            *ngFor="let group of groups"
+            [value]="group.id"
+          >
+            {{ group.nome }}
+          </nb-option>
+        </nb-select>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
+<div class="row" *ngIf="filter.selectedGroup !== '0'">
+  <div class="col-md-5">
+    <nb-card size="medium">
+      <nb-card-header>
+        Permissões para adicionar ({{ permissions.length }})
+        <br />
+        <div class="checkAllGsys">
+          <nb-checkbox (checkedChange)="PermissionsToAddAll($event)"
+            >Todos</nb-checkbox
+          >
+        </div>
+      </nb-card-header>
+
+      <nb-card-body class="nopadding">
+        <small *ngIf="permissions.length <= 0"
+          >Não há permissões adicionadas</small
+        >
+        <nb-list *ngIf="permissions.length > 0">
+          <nb-list-item
+            *ngFor="let permission of permissions; of: sortBy('permissaoOrdem')"
+          >
+            <nb-checkbox
+              (checkedChange)="setPermission(permission.id, $event)"
+              [checked]="permission.check"
+            >
+              {{ permission.nome }}</nb-checkbox
+            >
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="col-md-1 btn-actions">
+    <button
+      nbTooltip="Remover permissão"
+      nbTooltipPlacement="top"
+      nbTooltipStatus="danger"
+      nbButton
+      *ngIf="
+        uService.validatePermissions(
+          uService.getEnumPermissions().DeletarPermissaoGrupo
+        ) &&
+        uService.validatePermissions(
+          uService.getEnumPermissions().CadastrarPermissaoGrupo
+        )
+      "
+      status="danger"
+      [disabled]="PermissionsAddedTemp.length === 0"
+      (click)="removePermissionsInGrup()"
+    >
+      <nb-icon icon="arrow-back-outline"></nb-icon>
+    </button>
+    <br />
+    <button
+      nbTooltip="Adicionar permissão"
+      nbTooltipPlacement="bottom"
+      nbTooltipStatus="success"
+      nbButton
+      *ngIf="
+        uService.validatePermissions(
+          uService.getEnumPermissions().DeletarPermissaoGrupo
+        ) &&
+        uService.validatePermissions(
+          uService.getEnumPermissions().CadastrarPermissaoGrupo
+        )
+      "
+      status="success"
+      [disabled]="PermissionsToAddTemp.length === 0"
+      (click)="setPermissionsInGrup()"
+    >
+      <nb-icon icon="arrow-forward-outline"></nb-icon>
+    </button>
+  </div>
+  <div class="col-md-6">
+    <nb-card size="medium">
+      <nb-card-header>
+        Permissões adicionadas ({{ permissionsAdded.length }})
+        <br />
+        <div class="checkAllGsys">
+          <nb-checkbox
+            (checkedChange)="PermissionsAddedAll($event)"
+            [checked]="checkRemove"
+            >Todos</nb-checkbox
+          >
+        </div>
+      </nb-card-header>
+      <nb-card-body class="nopadding">
+        <small *ngIf="permissionsAdded.length <= 0"
+          >Não há permissões adicionadas</small
+        >
+        <nb-list *ngIf="permissionsAdded.length > 0">
+          <nb-list-item *ngFor="let permissionAdded of permissionsAdded">
+            <nb-checkbox
+              (checkedChange)="setPermissionsadded(permissionAdded.id, $event)"
+              [checked]="permissionAdded.check"
+              >{{ permissionAdded.nome }}</nb-checkbox
+            >
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

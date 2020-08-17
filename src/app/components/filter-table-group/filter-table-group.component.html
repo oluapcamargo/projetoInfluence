@@ -1,0 +1,17 @@
+<nb-card class="select-company-card" size="tiny">
+  <nb-card-header>
+    Filtro
+  </nb-card-header>
+  <nb-card-body>
+    <nb-select
+      selectedChange="Selecione um grupo de usuário"
+      (selectedChange)="itemChanged.emit(sid)"
+      [(selected)]="selectedItem"
+    >
+      <nb-option value="0">Escolha um Grupo</nb-option>
+      <nb-option *ngFor="let grupo of grupos; index as i" [value]="grupo">{{
+        grupo.nome
+      }}</nb-option>
+    </nb-select>
+  </nb-card-body>
+</nb-card>

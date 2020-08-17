@@ -1,0 +1,131 @@
+<nb-card size="large" style="border: hidden;">
+  <nb-card-header style="border: hidden;">
+    <div class="form-group col-md-12">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label fullWidth>Tipo Serviço</label><br />
+          <nb-select halfWidth [(ngModel)]="filter.tipoServico">
+            <nb-option
+              *ngFor="let servico of tipoServicos"
+              [value]="servico.nome"
+            >
+              {{ servico.nome }}</nb-option
+            >
+          </nb-select>
+          <div [hidden]="!tiposervicoValid" class="alert alert-danger">
+            Tipo de Serviço é de informe obrigatório.
+          </div>
+        </div>
+        <div class="form-group col-md-2">
+          <label fullWidth style="font-size:  0.9em;">Duração Média</label
+          ><br />
+          <input
+            name="duracaomedia"
+            required
+            type="time"
+            nbInput
+            [(ngModel)]="filter.duracao"
+          />
+          <div [hidden]="!duracaoValid" class="alert alert-danger">
+            Duração é de informe obrigatório.
+          </div>
+        </div>
+        <div class="form-group col-md-2">
+          <label fullWidth>Valor</label><br />
+          <input
+            name="valor"
+            type="number"
+            required
+            nbInput
+            min="0"
+            fullWidth
+            [(ngModel)]="filter.valor"
+          />
+          <div [hidden]="!valorValid" class="alert alert-danger">
+            Valor é de informe obrigatório.
+          </div>
+        </div>
+        <div class="form-group col-md-2">
+          <label fullWidth>Valor Promocional</label><br />
+          <input
+            fullWidth
+            name="valorpromocional"
+            required
+            type="number"
+            min="0"
+            nbInput
+            [(ngModel)]="filter.valorPromocional"
+          />
+        </div>
+
+        <div class="form-group col-md-2">
+          <br />
+          <button
+            style="text-align: right; margin: 10PX;"
+            nbButton
+            (click)="addTipoServico()"
+            tooltip="Adicionar registro"
+            placement="top"
+            delay="500"
+          >
+            Adicionar
+          </button>
+        </div>
+      </div>
+      <div
+        class="row"
+        [hidden]="!valorPromotionalValid"
+        class="alert alert-danger"
+      >
+        O Valor promocional deve ser menor do que o valor original.
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body *ngIf="data.length > 0">
+    <input
+      nbInput
+      id="search"
+      class="search-input"
+      placeholder="Pesquisar"
+      name="searchText"
+      [ngModel]="searchText"
+      (ngModelChange)="search($event)"
+    />
+    <table cellspacing="0" cellpadding="0">
+      <tr>
+        <th
+          (click)="order(column.field)"
+          *ngFor="let column of defaultColumns; let a = index"
+          [ngClass]="{ 'action-table': column.type }"
+        >
+          {{ column.name }}
+        </th>
+      </tr>
+
+      <tr *ngFor="let item of data" onblur="addEvent()">
+        <td *ngFor="let column of defaultColumns; let i = index">
+          <div [ngSwitch]="column.type" style="padding-left: inherit;">
+            <span *ngSwitchCase="'text'" style="align-items: center;">
+              {{ item[column.field] || "-" }}
+            </span>
+            <span *ngSwitchCase="'valor'" style="align-items: center;">
+              {{ item[column.field] }}
+            </span>
+
+            <span *ngSwitchCase="'ativarEditar'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span style="align-items: center;">
+                  <mat-icon class="icon" eventName="Editar">edit</mat-icon>
+                  <mat-icon class="icon" eventName="Delete">delete</mat-icon>
+                </span>
+              </div>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>

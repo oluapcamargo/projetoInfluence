@@ -1,0 +1,19 @@
+<nb-card class="select-company-card" size="tiny">
+  <nb-card-header>
+    Filtro
+  </nb-card-header>
+  <nb-card-body>
+    <nb-select
+      selectedChange="Selecione um empresa"
+      (selectedChange)="itemChanged.emit(sid)"
+      [(selected)]="selectedItem"
+    >
+      <nb-option value="0">Escolha uma empresa</nb-option>
+      <nb-option
+        *ngFor="let company of companies; index as i"
+        [value]="company"
+        >{{ company.nomeFantasia }}</nb-option
+      >
+    </nb-select>
+  </nb-card-body>
+</nb-card>

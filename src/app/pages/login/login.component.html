@@ -1,0 +1,82 @@
+<div class="top-bar"></div>
+<nb-card size="large">
+  <nb-card-body>
+    <div class="container">
+      <img style="width: 40%;" src="../../../assets/images/logo.png" />
+      <form style="margin-top: 2%">
+        <div class="form-item">
+          <br />
+          <input
+            name="user.email"
+            fieldSize="large"
+            type="text"
+            fullWidth
+            nbInput
+            autofocus
+            placeholder="Login"
+            [(ngModel)]="user.email"
+          />
+        </div>
+
+        <br />
+        <div class="form-item">
+          <br />
+          <input
+            name="user.password"
+            fieldSize="large"
+            type="password"
+            fullWidth
+            nbInput
+            placeholder="Senha"
+            [(ngModel)]="user.password"
+          />
+        </div>
+        <br />
+        <br />
+        <button
+          [disabled]="isLoading || !(user.password && user.email)"
+          style="margin-left: 1.4rem;border-radius: 25px;"
+          nbButton
+          size="large"
+          (click)="login()"
+        >
+          Entrar
+        </button>
+        <a
+          class="forgot-password-link"
+          (click)="forgotPassword()"
+          href="javascript:void(0)"
+        >
+          Esqueci minha senha
+        </a>
+        <br />
+        <br />
+        <label style="font-size: medium;">Ou cadasre-se. Eu sou...</label>
+        <br />
+        <br />
+        <div style="width: 100%;">
+          <button
+            style="margin-left: 1.4rem;width: 45%;border-radius: 25px;"
+            nbButton
+            halfWidth
+            size="large"
+            (click)="registerOperator()"
+            outline
+          >
+            Influencer
+          </button>
+          <button
+            style="margin-left: 1.4rem;width: 45%;  border-radius: 25px;"
+            nbButton
+            halfWidth
+            size="large"
+            (click)="registerEmpresa()"
+            outline
+          >
+            Empresa
+          </button>
+        </div>
+      </form>
+    </div>
+  </nb-card-body>
+</nb-card>

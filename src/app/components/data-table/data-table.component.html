@@ -1,0 +1,366 @@
+<nb-card>
+  <nb-card-body>
+    <input
+      nbInput
+      id="search"
+      class="search-input"
+      placeholder="Pesquisar"
+      name="searchText"
+      [ngModel]="searchText"
+      (ngModelChange)="search($event)"
+    />
+    <table cellspacing="0" cellpadding="0">
+      <tr>
+        <th
+          (click)="order(column.field)"
+          *ngFor="let column of defaultColumns; let a = index"
+          [ngClass]="{ 'action-table': column.type }"
+        >
+          {{ column.name }}
+        </th>
+      </tr>
+
+      <tr *ngFor="let item of data">
+        <td *ngFor="let column of defaultColumns; let i = index">
+          <div [ngSwitch]="column.type" style="padding-left: inherit;">
+            <span *ngSwitchCase="'number'" style="align-items: center;">
+              {{ item[column.field] || 0 }}
+            </span>
+            <span *ngSwitchCase="'trocarSenha'" style="align-items: center;">
+              <a>
+                <mat-icon>vpn_key</mat-icon>
+              </a>
+            </span>
+            <span *ngSwitchCase="'editar'" style="align-items: center;">
+              <a>
+                <mat-icon tooltip="Editar Registro" placement="top" delay="500"
+                  >edit</mat-icon
+                >
+              </a>
+            </span>
+            <span *ngSwitchCase="'editarEvento'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="true" style="align-items: center;">
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                  <ui-switch
+                    template=""
+                    ng-model="true"
+                    checked
+                    size="small"
+                  ></ui-switch>
+                </span>
+                <span *ngSwitchCase="false" style="align-items: center;">
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                  <ui-switch template="" size="small"></ui-switch>
+                </span>
+              </div>
+            </span>
+            <span *ngSwitchCase="'ativar'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="false" style="align-items: center;">
+                  <ui-switch
+                    template=""
+                    ng-model="true"
+                    size="small"
+                  ></ui-switch>
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                </span>
+                <span *ngSwitchCase="true" style="align-items: center;">
+                  <ui-switch template="" checked size="small"></ui-switch>
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                </span>
+              </div>
+            </span>
+            <span *ngSwitchCase="'ativarUser'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="true" style="align-items: center;">
+                  <ui-switch
+                    template=""
+                    ng-model="true"
+                    size="small"
+                  ></ui-switch>
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                </span>
+                <span *ngSwitchCase="false" style="align-items: center;">
+                  <ui-switch template="" checked size="small"></ui-switch>
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                </span>
+              </div>
+            </span>
+
+            <span
+              *ngSwitchCase="'ativarTipoServico'"
+              style="align-items: center;"
+            >
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="false" style="align-items: center;">
+                  <ui-switch
+                    template=""
+                    ng-model="true"
+                    size="small"
+                  ></ui-switch>
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                  <mat-icon
+                    template="AppDecisionAlertComponent"
+                    eventName="delete"
+                    >delete</mat-icon
+                  >
+                </span>
+                <span *ngSwitchCase="true" style="align-items: center;">
+                  <ui-switch template="" checked size="small"></ui-switch>
+                  <mat-icon
+                    tooltip="Editar Registro"
+                    placement="top"
+                    delay="500"
+                    eventName="Editar"
+                    >edit</mat-icon
+                  >
+                  <mat-icon
+                    template="AppDecisionAlertComponent"
+                    eventName="delete"
+                    >delete</mat-icon
+                  >
+                </span>
+              </div>
+            </span>
+
+            <span *ngSwitchCase="'ativarEditar'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="false" style="align-items: center;">
+                  <ui-switch
+                    template=""
+                    ng-model="true"
+                    size="small"
+                  ></ui-switch>
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                </span>
+                <span *ngSwitchCase="true" style="align-items: center;">
+                  <ui-switch template="" checked size="small"></ui-switch>
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                </span>
+              </div>
+            </span>
+
+            <span
+              *ngSwitchCase="'ativarEditarAtendimento'"
+              style="align-items: center;"
+            >
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="3" style="align-items: center;">
+                  <mat-icon eventName="Editar">search</mat-icon>
+                </span>
+                <span *ngSwitchCase="2" style="align-items: center;">
+                  <mat-icon eventName="Editar">search</mat-icon>
+                  <mat-icon style="color: red;" eventName="block"
+                    >block</mat-icon
+                  >
+                </span>
+                <span *ngSwitchCase="1" style="align-items: center;">
+                  <mat-icon eventName="Editar">search</mat-icon>
+                  <mat-icon style="color: green;" eventName="check"
+                    >check</mat-icon
+                  >
+                  <mat-icon style="color: red;" eventName="block"
+                    >block</mat-icon
+                  >
+                </span>
+                <span *ngSwitchCase="4" style="align-items: center;">
+                  <mat-icon eventName="Editar">search</mat-icon>
+                </span>
+              </div>
+            </span>
+
+            <span
+              *ngSwitchCase="'ativarEditarEstabelecimentos'"
+              style="align-items: center;"
+            >
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span *ngSwitchCase="3" style="align-items: center;">
+                  <ui-switch
+                    template=""
+                    ng-model="true"
+                    size="small"
+                  ></ui-switch>
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                </span>
+                <span *ngSwitchCase="2" style="align-items: center;">
+                  <ui-switch template="" checked size="small"></ui-switch>
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                </span>
+                <span *ngSwitchCase="1" style="align-items: center;">
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                  <mat-icon style="color: red;" eventName="block"
+                    >block</mat-icon
+                  >
+                  <mat-icon style="color: green;" eventName="check"
+                    >check</mat-icon
+                  >
+                </span>
+                <span *ngSwitchCase="4" style="align-items: center;">
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                  <mat-icon style="color: green;" eventName="check"
+                    >check</mat-icon
+                  >
+                </span>
+              </div>
+            </span>
+
+            <span
+              *ngSwitchCase="'actions'"
+              [innerHtml]="item[column.field] | safe: 'html'"
+            >
+            </span>
+            <span *ngSwitchCase="'date'">
+              {{ item[column.field] | date: "dd/MM/yyyy" }}
+            </span>
+
+            <span *ngSwitchCase="'text'">
+              {{ item[column.field] || "-" }}
+            </span>
+
+            <span *ngSwitchCase="'link'">
+              <a (click)="download(item)">Anexo</a>
+            </span>
+
+            <span *ngSwitchDefault>
+              {{ item[column.field] || "-" }}
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <label
+      *ngIf="
+        !showDefaultPagination &&
+        totalPages &&
+        rowsPerPage &&
+        rowsPerPage < totalRecords
+      "
+      >Listando registros de {{ (selectedPage - 1) * 10 }} -
+      {{ selectedPage * 10 }} de {{ totalRecords }} registros
+      <!-- <b>Listando {{selectedPage}} - {{selectedPage}}  de {{totalRecords}} registros</b> -->
+    </label>
+    <div
+      class="pagination-container d-flex justify-content-center"
+      *ngIf="
+        !showDefaultPagination &&
+        totalPages &&
+        rowsPerPage &&
+        rowsPerPage < totalRecords
+      "
+    >
+      <button
+        type="button"
+        class="action-page-button back-to-first"
+        nbTooltip="Ir para a 1ª página"
+        nbTooltipPlacement="top"
+        (click)="emitPageChange(1)"
+        [disabled]="selectedPage == 1"
+      >
+        «
+      </button>
+      <button
+        type="button"
+        class="action-page-button back-one"
+        nbTooltip="Voltar uma página"
+        nbTooltipPlacement="top"
+        (click)="emitPageChange(selectedPage - 1)"
+        [disabled]="selectedPage == 1"
+      >
+        &#60;
+      </button>
+      <button
+        *ngFor="let item of readyPages; let i = index"
+        class="action-page-button"
+        (click)="emitPageChange(item)"
+        [class.active]="selectedPage === item"
+      >
+        {{ item }}
+      </button>
+      <button
+        type="button"
+        class="action-page-button next-one"
+        nbTooltip="Avançar uma página"
+        nbTooltipPlacement="top"
+        (click)="emitPageChange(selectedPage + 1)"
+        [disabled]="selectedPage === totalPages"
+      >
+        {{ ">" }}
+      </button>
+      <button
+        type="button"
+        class="action-page-button go-to-last"
+        nbTooltip="'Ir para última página (' + totalPages + ')'"
+        nbTooltipPlacement="top"
+        (click)="emitPageChange(totalPages)"
+        [disabled]="selectedPage === totalPages"
+      >
+        »
+      </button>
+    </div>
+  </nb-card-body>
+</nb-card>

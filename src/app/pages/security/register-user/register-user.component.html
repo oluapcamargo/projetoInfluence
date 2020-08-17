@@ -1,0 +1,48 @@
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet"
+/>
+
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-6">
+        Cadastro de usuário
+      </div>
+      <div class="col-md-6 new-button">
+        <button
+          size="small"
+          *ngIf="
+            uService.validatePermissions(
+              uService.getEnumPermissions().CadastrarUsuario
+            ) &&
+            uService.validatePermissions(
+              uService.getEnumPermissions().ConsultarUsuario
+            )
+          "
+          nbButton
+          (click)="newValue()"
+          style="background-color: #552c56; 
+          border-color: #552c56;"
+          mytooltip
+          tooltip="Cadastrar novo usuário"
+          placement="top"
+          delay="500"
+        >
+          NOVO
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <app-data-table
+      id="tabelaUsuarios"
+      *ngIf="data.length > 0"
+      [data]="data"
+      [defaultColumns]="columns"
+      [totalRecords]="totalRecords"
+      (pageChanged)="changePage($event)"
+    >
+    </app-data-table>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,123 @@
+<nb-card [nbSpinner]="isFetching">
+  <nb-card-header>
+    <div class="row">
+      <div class="col titulo">
+        Cadastro de tipo de serviço
+      </div>
+      <div class="col text-right">
+        <button
+          ghost
+          nbButton
+          [status]="isFiltering ? 'danger' : 'info'"
+          class="mx-md-0 mx-lg-2 my-md-2 my-md-0"
+          size="small"
+          (click)="handleFilter()"
+        >
+          <nb-icon icon="funnel-outline"></nb-icon>
+          {{ isFiltering ? "Desativar filtro" : "Filtrar resultado" }}
+        </button>
+        <button
+          nbButton
+          size="small"
+          *ngIf="
+            uService.validatePermissions(permissions.CadastrarTipoServico) &&
+            uService.validatePermissions(permissions.ConsultarTipoServico)
+          "
+          (click)="newValue()"
+        >
+          NOVO TIPO DE SERVIÇO
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="filter-group" *ngIf="isFiltering">
+      <div class="row mt-2 mb-4">
+        <div class="col-12 title-gray">
+          Filtrar consulta:
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-3">
+          <label fullWidth>Tipo de Serviço</label>
+          <input
+            name="evento"
+            type="text"
+            nbInput
+            fullWidth
+            [(ngModel)]="filter.nome"
+            placeholder="Nome"
+          />
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xl-3">
+          <label style="width: 100%;">Categoria</label>
+          <nb-select fullWidth [(ngModel)]="filter.categoriaCodigo">
+            <nb-option value="0">Selecione a Categoria</nb-option>
+            <nb-option
+              *ngFor="let categoria of categorias"
+              [value]="categoria.codigo"
+            >
+              {{ categoria.name }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div class="form-group col-sm-12 col-md-12 col-lg-6 col-xl-3">
+          <label fullWidth>Situação</label>
+          <nb-select
+            fullWidth
+            selectedChange="Situação"
+            [(ngModel)]="filter.situacao"
+            selectedChange="itemChanged.emit(sid)"
+            selected="selectedItem"
+          >
+            <nb-option value="2">Todos</nb-option>
+            <nb-option value="1">Ativo</nb-option>
+            <nb-option value="0">Inativo</nb-option>
+          </nb-select>
+        </div>
+        <div
+          class="form-group col-sm-12 col-md-12 col-lg-12 col-xl-3 d-flex align-items-end justify-content-end"
+        >
+          <button
+            ghost
+            nbButton
+            class="mx-2"
+            id="clearFilter"
+            status="danger"
+            nbTooltip="Limpar filtro"
+            nbTooltipPlacement="top"
+            (click)="clearFilter()"
+          >
+            <nb-icon icon="close-outline"></nb-icon>
+          </button>
+          <button
+            nbButton
+            size="medium"
+            *ngIf="
+              uService.validatePermissions(permissions.ConsultarTipoServico)
+            "
+            tooltip="Cadastrar novo tipo de serviço"
+            placement="top"
+            delay="500"
+            (click)="search()"
+          >
+            Pesquisar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row my-3">
+      <div class="col-12 title-gray">
+        Resultado:
+      </div>
+    </div>
+    <app-data-table
+      id="tabelaUsuarios"
+      *ngIf="data.length > 0"
+      [data]="data"
+      [defaultColumns]="columns"
+      [totalRecords]="totalRecords"
+      (pageChanged)="changePage($event)"
+    ></app-data-table>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,22 @@
+.new-button {
+  text-align: right;
+}
+table {
+  border-collapse: collapse;
+  font-size: 12px;
+  table-layout: auto;
+  width: 100%;
+  margin-top: 10px;
+}
+
+table,
+th,
+td {
+  padding: 10px;
+  border: 0.01rem solid rgb(243, 243, 243);
+  // white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}

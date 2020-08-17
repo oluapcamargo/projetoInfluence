@@ -1,0 +1,86 @@
+table {
+  border-collapse: collapse;
+  font-size: 12px;
+  table-layout: auto;
+  width: 100%;
+  margin-top: 10px;
+}
+
+table,
+th,
+td {
+  padding: 10px;
+  border: 0.01rem solid rgb(243, 243, 243);
+  // white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.tooltip {
+  border: 1px solid black;
+  width: 230px;
+  margin-left: 58px;
+  margin-top: -35px;
+  background-color: darkcyan;
+  border-radius: 4px;
+  height: 20px;
+  color: white;
+}
+
+.pagination-container {
+  margin-top: 1.25rem;
+}
+
+.back-to-first {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.go-to-last {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-right: 1px solid #edf1f7 !important;
+}
+
+.action-page-button {
+  color: blue;
+  background-color: white;
+  border-top: 1px solid #edf1f7 !important;
+  border-bottom: 1px solid #edf1f7 !important;
+  border-left: 1px solid #edf1f7 !important;
+  box-shadow: none;
+  border: none;
+  width: 48px;
+  height: 40px;
+}
+
+.action-page-button:focus {
+  outline: none !important;
+}
+
+.action-page-button:disabled {
+  color: #c9cfdb;
+}
+
+.action-page-button:disabled:hover {
+  background-color: white;
+  cursor: default;
+}
+
+.action-page-button.active {
+  color: #ffffff;
+  background-color: blue;
+}
+
+.action-page-button:hover {
+  background-color: #edf1f7;
+  cursor: pointer;
+}
+
+.action-page-button.active:hover {
+  background-color: blue;
+  cursor: pointer;
+}

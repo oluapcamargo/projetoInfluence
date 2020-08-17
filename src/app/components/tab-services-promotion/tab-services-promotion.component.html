@@ -1,0 +1,145 @@
+<nb-card size="large">
+  <nb-card-header>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label fullWidth>Nome do Serviço</label>
+        <input
+          name="nome"
+          type="text"
+          nbInput
+          fullWidth
+          placeholder="Nome"
+          [(ngModel)]="filtro.nome"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label fullWidth>Qtd. de dias sem venda</label><br />
+        <input
+          style="width: 40%;"
+          name="qtdDiasMinSemVenda"
+          halfWidth
+          type="number"
+          nbInput
+          [(ngModel)]="filtro.qtdDiasMinSemVenda"
+          placeholder="qtd mmínima"
+        />
+        <a>até</a>
+        <input
+          style="width: 40%;"
+          name="qtdDiasMaxSemVenda"
+          type="number"
+          halfWidth
+          nbInput
+          [(ngModel)]="filtro.qtdDiasMaxSemVenda"
+          placeholder="qtd máxima"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Mais vendidos nos últimos X meses</label>
+        <input
+          name="meses"
+          type="text"
+          [(ngModel)]="filtro.maisVendidosUltimosMeses"
+          nbInput
+          fullWidth
+          placeholder="meses"
+        />
+      </div>
+      <div class="form-group col-md-2">
+        <br />
+        <mat-icon (click)="searchEstabelecimento()">search</mat-icon>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="form-group col-md-12">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <nb-card size="medium">
+            <nb-card-header>
+              Serviços ({{ servicosAdd.length }})
+              <br />
+              <div class="checkAllGsys">
+                <nb-checkbox (checkedChange)="AddAll($event)"
+                  >Todos</nb-checkbox
+                >
+              </div>
+            </nb-card-header>
+
+            <nb-card-body class="nopadding">
+              <small *ngIf="servicosAdd.length <= 0"
+                >Não há Serviços listados</small
+              >
+              <nb-list *ngIf="servicosAdd.length > 0">
+                <nb-list-item *ngFor="let servico of servicosAdd">
+                  <nb-checkbox
+                    (checkedChange)="setPermission(servico.id, $event)"
+                    [checked]="servico.check"
+                  >
+                    {{ servico.nome }}</nb-checkbox
+                  >
+                </nb-list-item>
+              </nb-list>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div class="form-group col-md-1 btn-actions">
+          <button
+            nbTooltip="Remover Serviço"
+            nbTooltipPlacement="top"
+            nbTooltipStatus="danger"
+            nbButton
+            status="danger"
+            [disabled]="ServicoToAddedTemp.length === 0"
+            (click)="removeServicoInUser()"
+          >
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+          </button>
+          <br />
+          <button
+            nbTooltip="Adicionar Serviço"
+            nbTooltipPlacement="bottom"
+            nbTooltipStatus="success"
+            nbButton
+            status="success"
+            [disabled]="ServicoToAddTemp.length === 0"
+            (click)="setServicoInUser()"
+          >
+            <nb-icon icon="arrow-forward-outline"></nb-icon>
+          </button>
+        </div>
+        <div class="form-group col-md-4">
+          <nb-card size="medium">
+            <nb-card-header>
+              Serviços adicionados ({{ servicosAdded.length }})
+              <br />
+              <div class="checkAllGsys">
+                <nb-checkbox
+                  (checkedChange)="ServicoAddedAll($event)"
+                  [checked]="checkRemove"
+                  >Todos
+                </nb-checkbox>
+              </div>
+            </nb-card-header>
+            <nb-card-body class="nopadding">
+              <small *ngIf="servicosAdded.length <= 0"
+                >Não há estabelecimentos adicionadas</small
+              >
+              <nb-list *ngIf="servicosAdded.length > 0">
+                <nb-list-item *ngFor="let servicoAdded of servicosAdded">
+                  <nb-checkbox
+                    (checkedChange)="
+                      setPermissionsadded(servicoAdded.id, $event)
+                    "
+                    [checked]="servicoAdded.check"
+                    >{{ servicoAdded.nome }}</nb-checkbox
+                  >
+                </nb-list-item>
+              </nb-list>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

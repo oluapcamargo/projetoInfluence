@@ -1,0 +1,111 @@
+<nb-card size="large" style="border: hidden;">
+  <nb-card-header style="border: hidden;">
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label fullWidth>Descrição</label>
+        <input
+          name="descricao"
+          type="text"
+          nbInput
+          fullWidth
+          placeholder="Descrição"
+          [(ngModel)]="data.Descricao"
+        />
+        <div [hidden]="!descricaoFotoValid" class="alert alert-danger">
+          Descrição da foto e de informe obrigatório.
+        </div>
+      </div>
+      <div class="form-group col-md-9">
+        <div class="form-group col-md-12">
+          <label>Imagem</label><br />
+          <input
+            name="fileName"
+            type="text"
+            nbInput
+            readonly
+            [(ngModel)]="data.NomeFoto"
+            placeholder="Nome do Arquivo"
+            value="true"
+          />
+
+          <mat-icon
+            style="padding-left:0.5em;padding-right:1.5em;"
+            (click)="fileInput.click()"
+            eventName="foto"
+            >add_circle</mat-icon
+          >
+          <input
+            #fileInput
+            type="file"
+            (change)="handleFileInput($event)"
+            style="display:none;"
+            accept="image/x-png,image/gif,image/jpeg"
+          />
+          <div [hidden]="!validFoto" class="alert alert-danger">
+            É obrigatório a seleção de uma imagem para o estabelecimento.
+          </div>
+          <label style="padding-left:0.5em;" *ngIf="perfilItem"
+            >Foto do Perfil</label
+          >
+          <input type="checkbox" *ngIf="perfilItem" [(ngModel)]="data.Perfil" />
+          <button
+            size="small"
+            nbButton
+            tooltip="Cadastrar Foto"
+            delay="500"
+            style="text-align: right; margin: 10PX;"
+            (click)="newValue()"
+          >
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body *ngIf="dataListaPhoto.length > 0">
+    <input
+      nbInput
+      id="search"
+      class="search-input"
+      placeholder="Pesquisar"
+      name="searchText"
+      [ngModel]="searchText"
+      (ngModelChange)="search($event)"
+    />
+    <table cellspacing="0" cellpadding="0">
+      <tr>
+        <th
+          (click)="order(column.field)"
+          *ngFor="let column of defaultColumns; let a = index"
+          [ngClass]="{ 'action-table': column.type }"
+        >
+          {{ column.name }}
+        </th>
+      </tr>
+      <tr *ngFor="let item of dataListaPhoto" onblur="addEvent()">
+        <td *ngFor="let column of defaultColumns; let i = index">
+          <div [ngSwitch]="column.type" style="padding-left: inherit;">
+            <span *ngSwitchCase="'text'" style="align-items: center;">
+              {{ item[column.field] }}
+            </span>
+
+            <span *ngSwitchCase="'ativarEditar'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span style="align-items: center;">
+                  <mat-icon class="icon" eventName="Editar">edit</mat-icon>
+                  <mat-icon class="icon" eventName="Delete">delete</mat-icon>
+                  <mat-icon class="icon" eventName="Download"
+                    >save_alt</mat-icon
+                  >
+                </span>
+              </div>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>

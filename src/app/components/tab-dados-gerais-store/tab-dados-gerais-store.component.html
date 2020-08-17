@@ -1,0 +1,455 @@
+<nb-card size="large" style="border: hidden;">
+  <nb-card-header>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label fullWidth>CNPJ</label>
+        <input
+          id="cnpj"
+          name="cnpj"
+          type="text"
+          nbInput
+          required
+          mask="00.000.000/0000-00"
+          fullWidth
+          (blur)="ngOnChanges()"
+          placeholder="CNPJ"
+          [(ngModel)]="filtro.cnpj"
+        />
+      </div>
+
+      <div class="form-group col-md-4">
+        <label fullWidth>Nome</label>
+        <input
+          name="nome"
+          fullWidth
+          type="text"
+          nbInput
+          (blur)="ngOnChanges()"
+          placeholder="Nome"
+          [(ngModel)]="filtro.nome"
+        />
+      </div>
+
+      <div class="form-group col-md-4">
+        <label fullWidth>Situação</label>
+        <input
+          name="situacao"
+          fullWidth
+          type="text"
+          nbInput
+          readonly
+          (blur)="ngOnChanges()"
+          [(ngModel)]="filtro.situacao"
+          placeholder="Aguardando avaliação"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <div [hidden]="!cnpjValid" class="alert alert-danger">
+          Campo CNPJ é de informe obrigatório.
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <div [hidden]="!nomeValid" class="alert alert-danger">
+          Nome do estabelecimento é de informe obrigatório.
+        </div>
+      </div>
+      <div class="form-group col-md-4"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label fullWidth>Tipo</label><br />
+        <nb-select
+          fullWidth
+          style="width:  0.5em;"
+          [(ngModel)]="filtro.tipoEstabelecimento"
+        >
+          <nb-option [value]="'1'">Serviço</nb-option>
+          <nb-option [value]="'2'">Evento</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Responsável</label>
+        <input
+          name="responsavel"
+          type="text"
+          nbInput
+          fullWidth
+          (blur)="ngOnChanges()"
+          [(ngModel)]="filtro.responsavel"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Taxa Isalon(%)</label><br />
+        <input
+          name="taxaIsalon"
+          type="number"
+          nbInput
+          (blur)="ngOnChanges()"
+          [(ngModel)]="filtro.percentualTaxaIsalon"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Destaque</label><br />
+        <nb-select
+          fullWidth
+          class="selectSmall"
+          [(ngModel)]="filtro.flagDestaque"
+        >
+          <nb-option value="1">Sim</nb-option>
+          <nb-option value="0">Não</nb-option>
+        </nb-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <div [hidden]="!responsavelValid" class="alert alert-danger">
+          Responsável é de informe obrigatório.
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label fullWidth>Descrição</label>
+        <textarea
+          fullWidth
+          name="descricao"
+          type="text"
+          [(ngModel)]="filtro.descricao"
+          multiple
+          (blur)="ngOnChanges()"
+          nbInput
+        ></textarea>
+        <div [hidden]="!descricaoValid" class="alert alert-danger">
+          Descrição é de informe obrigatório.
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Localização</legend>
+          <div class="row">
+            <!-- <div class="form-group col-md-12"> -->
+            <div class="form-group col-md-3">
+              <label fullWidth>CEP</label>
+              <input
+                name="cep"
+                fullWidth
+                (blur)="ngOnChanges()"
+                type="text"
+                mask="00.000-000"
+                [(ngModel)]="filtro.cep"
+                nbInput
+                placeholder="CEP"
+                maxlength="10"
+              />
+              <div [hidden]="!cepValid" class="alert alert-danger">
+                CEP é de informe obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label fullWidth>Estado</label><br />
+              <nb-select
+                halfWidth
+                (selectedChange)="fetchMunicipios($event)"
+                selected="selectedItem"
+                [(ngModel)]="filtro.ufId"
+              >
+                <nb-option *ngFor="let uf of Estados" [value]="uf.id">{{
+                  uf.nome
+                }}</nb-option>
+              </nb-select>
+              <div [hidden]="!ufValid" class="alert alert-danger">
+                Estado é de informe obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Município</label><br />
+              <nb-select
+                halfWidth
+                selectedChange
+                selectedChange="municipio"
+                (selectedChange)="fetchBairros($event)"
+                selected="selectedItem"
+                [(ngModel)]="filtro.municipioId"
+              >
+                <nb-option *ngFor="let muni of Municipio" [value]="muni.id">{{
+                  muni.nome
+                }}</nb-option>
+              </nb-select>
+              <div [hidden]="!municipioValid" class="alert alert-danger">
+                Município é de informe obrigatório.
+              </div>
+            </div>
+            <!-- </div> -->
+          </div>
+          <div class="row">
+            <!-- <div class="form-group col-md-12"> -->
+
+            <div class="form-group col-md-3">
+              <label fullWidth>Bairro</label><br />
+              <nb-select
+                halfWidth
+                (selectedChange)="ngOnChanges()"
+                selected="selectedItem"
+                [(ngModel)]="filtro.bairroId"
+              >
+                <nb-option *ngFor="let bairro of Bairro" [value]="bairro.id">{{
+                  bairro.nome
+                }}</nb-option>
+              </nb-select>
+              <div [hidden]="!bairroValid" class="alert alert-danger">
+                Bairro é de informe obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-9">
+              <label fullWidth>Rua</label>
+              <input
+                name="rua"
+                fullWidth
+                type="text"
+                (blur)="ngOnChanges()"
+                nbInput
+                placeholder="Rua"
+                [(ngModel)]="filtro.rua"
+                maxlength="200"
+              />
+              <div [hidden]="!ruaValid" class="alert alert-danger">
+                Logadouro é de informe obrigatório.
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label fullWidth>Número</label>
+              <input
+                name="numero"
+                fullWidth
+                type="text"
+                (blur)="ngOnChanges()"
+                nbInput
+                [(ngModel)]="filtro.numeroEndereco"
+                placeholder="Número"
+                maxlength="50"
+              />
+              <div [hidden]="!numeroEnderecoValid" class="alert alert-danger">
+                Nº endereço é de informe obrigatório.
+              </div>
+            </div>
+            <div class="form-group col-md-9">
+              <label fullWidth>Complemento</label>
+              <input
+                name="complemento"
+                fullWidth
+                type="text"
+                (blur)="ngOnChanges()"
+                [(ngModel)]="filtro.complementoEndereco"
+                nbInput
+                placeholder="Complemento"
+                maxlength="200"
+              />
+            </div>
+          </div>
+        </fieldset>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Contatos</legend>
+              <div class="row">
+                <!-- <div class="form-group col-md-12"> -->
+                <div class="form-group col-md-3">
+                  <label fullWidth>Telefone</label>
+                  <input
+                    name="telefone"
+                    fullWidth
+                    (blur)="ngOnChanges()"
+                    type="text"
+                    [(ngModel)]="filtro.telefone"
+                    nbInput
+                    mask="(00)00000-0000"
+                    placeholder="( )    -    "
+                  />
+                  <div [hidden]="!telefonValid" class="alert alert-danger">
+                    Nº endereço é de informe obrigatório.
+                  </div>
+                </div>
+                <div class="form-group col-md-9">
+                  <label fullWidth>E-mail</label><br />
+                  <input
+                    name="email"
+                    fullWidth
+                    (blur)="ngOnChanges()"
+                    type="email"
+                    [(ngModel)]="filtro.enderecoEmail"
+                    nbInput
+                    placeholder="E mail"
+                  />
+                  <div [hidden]="!emailValid" class="alert alert-danger">
+                    Email é de informe obrigatório.
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <label fullWidth>Site</label>
+                  <input
+                    name="site"
+                    fullWidth
+                    (blur)="ngOnChanges()"
+                    type="text"
+                    [(ngModel)]="filtro.enderecoSite"
+                    nbInput
+                    placeholder="Site"
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-12">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">Disponibilidade</legend>
+              <div class="row">
+                <!-- <div class="form-group col-md-12"> -->
+                <div class="form-group col-md-6">
+                  <label>Dias de Atendimento padrão</label><br />
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.diaInicioAtendimentoPadrao"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option
+                      *ngFor="let dia of DiasAtendimento"
+                      [value]="dia.id"
+                      >{{ dia.nome }}</nb-option
+                    >
+                  </nb-select>
+                  <a>à</a>
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.diaFimAtendimentoPadrao"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option
+                      *ngFor="let dia of DiasAtendimento"
+                      [value]="dia.id"
+                      >{{ dia.nome }}</nb-option
+                    >
+                  </nb-select>
+                  <div
+                    [hidden]="!periodoAtendimentoValid"
+                    class="alert alert-danger"
+                  >
+                    Dias de atendimento é de informe obrigatório.
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Horário de Atendimento padrão</label><br />
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.horaInicioAtendimentoPadrao"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option *ngFor="let hora of timeArray" [value]="hora">{{
+                      hora
+                    }}</nb-option>
+                  </nb-select>
+                  <a>à</a>
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.horaFimAtendimentoPadrao"
+                  >
+                    <nb-option *ngFor="let hora of timeArray" [value]="hora">{{
+                      hora
+                    }}</nb-option>
+                  </nb-select>
+                  <div
+                    [hidden]="!horarioAtendimentoValid"
+                    class="alert alert-danger"
+                  >
+                    Horário de atendimento é de informe obrigatório.
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <label fullWidth
+                    ><b
+                      >OBS: Caso haja funcionamento algum dia em horário
+                      diferenciado, escolha abaixo:</b
+                    ></label
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <!-- <div class="form-group col-md-12"> -->
+                <div class="form-group col-md-6">
+                  <label>Dias de Atendimento diferenciado</label><br />
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.diaInicioAtendimentoEspecial"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option
+                      *ngFor="let dia of DiasAtendimento"
+                      [value]="dia.id"
+                      >{{ dia.nome }}</nb-option
+                    >
+                  </nb-select>
+                  <a>à</a>
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.diaFimAtendimentoEspecial"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option
+                      *ngFor="let dia of DiasAtendimento"
+                      [value]="dia.id"
+                      >{{ dia.nome }}</nb-option
+                    >
+                  </nb-select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Horário de Atendimento diferenciado</label><br />
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.horaInicioAtendimentoEspecial"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option *ngFor="let hora of timeArray" [value]="hora">{{
+                      hora
+                    }}</nb-option>
+                  </nb-select>
+                  <a>à</a>
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    [(ngModel)]="filtro.horaFimAtendimentoEspecial"
+                    (selectedChange)="ngOnChanges()"
+                  >
+                    <nb-option *ngFor="let hora of timeArray" [value]="hora">{{
+                      hora
+                    }}</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body> </nb-card-body>
+</nb-card>

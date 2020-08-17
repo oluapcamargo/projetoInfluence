@@ -1,0 +1,256 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-12">
+        <b>Promoções</b>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label fullWidth>Título</label>
+        <input
+          name="Título"
+          type="text"
+          nbInput
+          [(ngModel)]="filtro.titulo"
+          fullWidth
+          placeholder="Título"
+        />
+      </div>
+      <div class="form-group col-md-5">
+        <label style="width: 100%;">Vigência</label>
+        <input
+          style="width: 45%;"
+          name="vigenciaInicio"
+          halfWidth
+          type="date"
+          nbInput
+          [(ngModel)]="filtro.dataInicioVigencia"
+        />
+        <a>até</a>
+        <input
+          style="width: 45%;"
+          name="vigenciaFim"
+          type="date"
+          halfWidth
+          nbInput
+          (blur)="validaValor('dataFimVigencia')"
+          [(ngModel)]="filtro.dataFimVigencia"
+        />
+      </div>
+      <div class="form-group col-md-1">
+        <label>Situação</label>
+        <nb-select
+          halfWidth
+          selectedChange="Situação"
+          selectedChange="itemChanged.emit(sid)"
+          selected="selectedItem"
+          [(ngModel)]="filtro.situacao"
+        >
+          <nb-option value="true">Ativo</nb-option>
+          <nb-option value="false">Inativo</nb-option>
+        </nb-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label>Tipo</label>
+        <nb-select
+          halfWidth
+          selectedChange="tipoPromocao"
+          selectedChange="itemChanged.emit(sid)"
+          selected="selectedItem"
+          [(ngModel)]="filtro.tipoPromocao"
+        >
+          <nb-option value="Valor">Valor</nb-option>
+          <nb-option value="PercentualdeDesconto">% de Desconto</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label style="width: 100%;">Valor Desconto</label>
+        <input
+          style="width: 45%;"
+          name="valorDescontoMinimo"
+          (blur)="validaValor('valorDescontoMinimo')"
+          halfWidth
+          type="number"
+          [(ngModel)]="filtro.valorDescontoMinimo"
+          nbInput
+        />
+        <a>à</a>
+        <input
+          style="width: 45%;"
+          name="vigenciaFim"
+          type="number"
+          (blur)="validaValor('valorDescontoMaximo')"
+          halfWidth
+          nbInput
+          [(ngModel)]="filtro.valorDescontoMaximo"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label style="width: 100%;">% Desconto</label>
+        <input
+          style="width: 45%;"
+          name="percentualDescontoMinimo"
+          halfWidth
+          type="number"
+          [(ngModel)]="filtro.percentualDescontoMinimo"
+          min="0"
+          (blur)="validaValor('percentualDescontoMinimo')"
+          nbInput
+        />
+        <a>à</a>
+        <input
+          style="width: 45%;"
+          name="percentualDescontoMaximo"
+          type="number"
+          halfWidth
+          min="0"
+          (blur)="validaValor('percentualDescontoMaximo')"
+          [(ngModel)]="filtro.percentualDescontoMaximo"
+          nbInput
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label style="width: 100%;">Vl. Mínimo Compra</label>
+        <input
+          style="width: 45%;"
+          name="vigenciaInicio"
+          halfWidth
+          type="number"
+          (blur)="validaValor('valorMinimoCompraMinimo')"
+          min="0"
+          [(ngModel)]="filtro.valorMinimoCompraMinimo"
+          nbInput
+        />
+        <a>à</a>
+        <input
+          style="width: 45%;"
+          name="vigenciaFim"
+          type="number"
+          halfWidth
+          (blur)="validaValor('valorMinimoCompraMaximo')"
+          min="0"
+          [(ngModel)]="filtro.valorMinimoCompraMaximo"
+          nbInput
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label fullWidth>UF</label><br />
+        <nb-select
+          (selectedChange)="fetchMunicipios($event)"
+          selected="selectedItem"
+          halfWidth
+          [(ngModel)]="filtro.estado"
+        >
+          <nb-option value="0">Selecione o UF</nb-option>
+          <nb-option *ngFor="let uf of Estados" [value]="uf.id">{{
+            uf.nome
+          }}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label>Município</label><br />
+        <nb-select
+          halfWidth
+          (selectedChange)="fetchBairros($event)"
+          [(ngModel)]="filtro.municipio"
+        >
+          <nb-option *ngFor="let muni of Municipio" [value]="muni.id">{{
+            muni.nome
+          }}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label>Bairro</label><br />
+        <nb-select halfWidth [(ngModel)]="filtro.bairro">
+          <nb-option *ngFor="let bairro of Bairro" [value]="filtro.bairro">{{
+            bairro.nome
+          }}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label>Tipo Serviço</label>
+        <nb-select fullWidth [(ngModel)]="filtro.codigoTipoServico">
+          <nb-option
+            *ngFor="let servico of TipoServico"
+            [value]="servico.codigo"
+            >{{ servico.nome }}</nb-option
+          >
+        </nb-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label fullWidth>CNPJ do Estabelecimento</label>
+        <input
+          name="Título"
+          type="text"
+          [(ngModel)]="filtro.cNPJEstabelecimento"
+          nbInput
+          halfWidth
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Nome do Estabelecimento</label>
+        <input
+          name="Título"
+          type="text"
+          [(ngModel)]="filtro.nomeEstabelecimento"
+          nbInput
+          halfWidth
+        />
+      </div>
+      <div class="form-group col-md-6"></div>
+    </div>
+    <div class="col-md-12 new-button">
+      <button
+        size="small"
+        *ngIf="
+          uService.validatePermissions(
+            uService.getEnumPermissions().ConsultarPromocao
+          )
+        "
+        nbButton
+        tooltip="Pesquisar Promoção"
+        placement="top"
+        delay="500"
+        style="background-color: grey; margin: 10PX;
+            border-color: grey;"
+        (click)="searchValue()"
+      >
+        Pesquisar
+      </button>
+      <button
+        size="small"
+        *ngIf="
+          uService.validatePermissions(
+            uService.getEnumPermissions().CadastrarPromocao
+          )
+        "
+        nbButton
+        tooltip="Cadastrar Promoção"
+        placement="top"
+        delay="500"
+        style="background-color: #552c56; 
+            border-color: #552c56;"
+        (click)="newValue()"
+      >
+        NOVO
+      </button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <app-data-table
+      *ngIf="data.length > 0"
+      [data]="data"
+      [defaultColumns]="columns"
+      [totalRecords]="totalRecords"
+      (pageChanged)="changePage($event)"
+    ></app-data-table>
+  </nb-card-body>
+</nb-card>

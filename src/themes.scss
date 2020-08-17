@@ -1,0 +1,22 @@
+@import "~@nebular/theme/styles/theming";
+@import "~@nebular/theme/styles/themes/corporate";
+
+$nb-themes: nb-register-theme(
+  (
+    color-primary-100: #ffe7ce,
+    color-primary-200: #ffdbb6,
+    color-primary-disabled: rgba(143, 155, 179, 0.24),
+    color-primary-disabled-border: rgba(143, 155, 179, 0.24),
+    color-primary-hover: #db5c2a,
+    color-primary-hover-border: #db5c2a,
+    color-primary-default: #ff890b,
+    color-primary-default-border: #ff890b,
+    color-primary-active: #db5c2a,
+    color-primary-active-border: #db5c2a,
+    color-primary-focus: #db5c2a,
+    color-primary-focus-border: #ffd7ad,
+    text-disabled-color: rgba(143, 155, 179, 0.48)
+  ),
+  isalontheme,
+  corporate
+);

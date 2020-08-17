@@ -1,0 +1,13 @@
+.new-button {
+  text-align: right;
+}
+.nbButton {
+  background-color: #552c56;
+  border-color: #552c56;
+  color: white;
+}
+.delete-button {
+  background-color: red($color: #000000);
+}
+
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";

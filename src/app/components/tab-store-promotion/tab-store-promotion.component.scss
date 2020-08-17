@@ -1,0 +1,37 @@
+.mat-icon {
+  font-size: 50px;
+}
+.top-button {
+  position: absolute;
+  right: 0;
+  top: 1rem;
+}
+
+.permission-list {
+  margin-top: 1.5rem;
+}
+
+.checkAllGsys {
+  margin: 20px 0 -15px -4px !important;
+}
+.btn-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 0 20px 0;
+}
+
+nb-card {
+  min-width: 10rem;
+  // max-width: 20rem;
+  margin: 0 auto 2rem;
+}
+
+nb-card-body.nopadding {
+  padding: 0 !important;
+}
+
+small {
+  padding: 1rem 1.25rem;
+}

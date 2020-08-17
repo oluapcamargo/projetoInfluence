@@ -1,0 +1,29 @@
+<nb-card>
+  <nb-card-header>Atualização de registro</nb-card-header>
+  <nb-card-body>
+    <span>{{ this.message }}</span>
+    <br /><br /><br />
+    <nb-card-footer style="text-align: right ;">
+      <div class="form-group col-md-12" *ngIf="descricaoShow">
+        <textarea
+          fullWidth
+          name="descricao"
+          type="text"
+          [(ngModel)]="descricao"
+          multiple
+          nbInput
+        ></textarea>
+      </div>
+      <button style="text-align: left; margin: 10PX;" nbButton (click)="save()">
+        {{ this.actionButton }}
+      </button>
+      <button
+        style="text-align: right;background-color: #F0AD4E; border-color: #F0AD4E;;"
+        nbButton
+        (click)="close()"
+      >
+        {{ this.cancelButton }}
+      </button>
+    </nb-card-footer>
+  </nb-card-body>
+</nb-card>

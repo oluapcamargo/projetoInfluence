@@ -1,0 +1,49 @@
+nb-card {
+  height: 90vh;
+  width: 90vw;
+  margin-top: 5vh;
+}
+
+.new-button {
+  text-align: right;
+  margin-top: 4vh;
+  background-color: grey;
+  border-color: grey;
+}
+
+.icon {
+  cursor: pointer;
+}
+fieldset {
+  border-color: #ff0000 !important;
+  border-style: double !important;
+}
+.legend {
+  margin-bottom: 0px !important;
+  margin-left: 16px !important;
+}
+
+.field_set {
+  border-color: #f00 !important;
+  border-style: solid !important;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 12px;
+  table-layout: auto;
+  width: 100%;
+  margin-top: 10px;
+}
+
+table,
+th,
+td {
+  padding: 10px;
+  border: 0.01rem solid rgb(243, 243, 243);
+  // white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}

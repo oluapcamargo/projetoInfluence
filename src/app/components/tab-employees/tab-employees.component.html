@@ -1,0 +1,74 @@
+<nb-card size="large" style="border: hidden;">
+  <nb-card-header style="border: hidden;">
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label fullWidth>Nome do Profissional</label>
+        <input
+          name="nome"
+          type="text"
+          nbInput
+          fullWidth
+          placeholder="Nome"
+          [(ngModel)]="filter.nome"
+        />
+      </div>
+      <div class="form-group col-md-2"></div>
+      <div class="form-group col-md-2">
+        <br />
+        <button
+          size="small"
+          nbButton
+          tooltip="Cadastrar Profissional"
+          delay="500"
+          style="text-align: right; margin: 10PX;"
+          (click)="newValue()"
+        >
+          Adicionar
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body *ngIf="dataProfissional.length > 0">
+    <input
+      nbInput
+      id="search"
+      class="search-input"
+      placeholder="Pesquisar"
+      name="searchText"
+      [ngModel]="searchText"
+      (ngModelChange)="search($event)"
+    />
+    <table cellspacing="0" cellpadding="0">
+      <tr>
+        <th
+          (click)="order(column.field)"
+          *ngFor="let column of defaultColumns; let a = index"
+          [ngClass]="{ 'action-table': column.type }"
+        >
+          {{ column.name }}
+        </th>
+      </tr>
+      <tr *ngFor="let item of dataProfissional" onblur="addEvent()">
+        <td *ngFor="let column of defaultColumns; let i = index">
+          <div [ngSwitch]="column.type" style="padding-left: inherit;">
+            <span *ngSwitchCase="'text'" style="align-items: center;">
+              {{ item[column.field] || "-" }}
+            </span>
+
+            <span *ngSwitchCase="'ativarEditar'" style="align-items: center;">
+              <div
+                [ngSwitch]="item[column.field]"
+                style="padding-left: inherit;"
+              >
+                <span style="align-items: center;">
+                  <mat-icon eventName="Editar">edit</mat-icon>
+                  <mat-icon eventName="Delete">delete</mat-icon>
+                </span>
+              </div>
+            </span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>

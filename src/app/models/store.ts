@@ -1,0 +1,40 @@
+import { BairroType } from "./bairro";
+import { MunicipioType } from "./municipio";
+import { UFType } from "./uf";
+import { Time } from "@angular/common";
+import { StoreFotoType } from "./storyFoto";
+import { StoreEmployeeType } from "./storyEmployee";
+import { StoreServiceType } from "./storyServiceType";
+
+export class StoreType {
+  id: string;
+  nome: string;
+  cnpj: string;
+  situacao: number;
+  tipoEstabelecimento: string;
+  responsavel: string;
+  percentualTaxaIsalon: string;
+  flagDestaque: string;
+  descricao: string;
+  cep: string;
+  bairroId: string;
+  ufId: string;
+  municipioId: string;
+  rua: string;
+  numeroEndereco: string;
+  complementoEndereco: string;
+  telefone: string;
+  enderecoEmail: string;
+  enderecoSite: string;
+  diaInicioAtendimentoPadrao: number;
+  diaFimAtendimentoPadrao: number;
+  horaInicioAtendimentoPadrao: string;
+  horaFimAtendimentoPadrao: string;
+  diaInicioAtendimentoEspecial: number;
+  diaFimAtendimentoEspecial: number;
+  horaInicioAtendimentoEspecial: string;
+  horaFimAtendimentoEspecial: string;
+  estabelecimentoFoto: StoreFotoType[];
+  estabelecimentoTipoServico: StoreServiceType[];
+  estabelecimentoProfissional: StoreEmployeeType[];
+}

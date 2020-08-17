@@ -1,0 +1,163 @@
+<nb-card>
+  <nb-card-header style="background-color:#E1E1FF; color: #6A6AD4;"
+    >Cadastro de Tipo de Serviço</nb-card-header
+  >
+  <nb-card-body>
+    <div class="form">
+      <div class="row">
+        <div class="form-group col-md-8">
+          <label>Tipo de Serviço</label>
+          <input
+            name="nome"
+            type="text"
+            nbInput
+            (blur)="validaObrigatoriedade('validNome')"
+            fullWidth
+            maxlength="100"
+            [(ngModel)]="data.nome"
+            placeholder="Nome"
+          />
+          <div [hidden]="validNome" class="alert alert-danger">
+            Nome do tipo de serviço é obrigatório.
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="initial">Situação</label>
+          <input
+            name="situacao"
+            type="text"
+            readonly
+            nbInput
+            fullWidth
+            [(ngModel)]="situacaoString"
+            placeholder="Ativo"
+            value="true"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label>Categoria</label>
+          <nb-select
+            (ngModelChange)="fetchGroups($event)"
+            fullWidth
+            [(ngModel)]="categoriaCodigo"
+            placeholder="Selecione a Categoria"
+            (blur)="validaObrigatoriedade('validCategoria')"
+          >
+            <nb-option
+              *ngFor="let categoria of categorias"
+              (selectionChange)="fetchGroups(categoria.id)"
+              [value]="categoria.id"
+              >{{ categoria.name }}
+            </nb-option>
+          </nb-select>
+
+          <div [hidden]="validCategoria" class="alert alert-danger">
+            É necessário cadastrar uma categoria.
+          </div>
+        </div>
+        <div class="form-group col-md-8">
+          <label>Imagem</label>
+          <table fullWidth>
+            <tr fullWidth>
+              <td style="width: 65%;">
+                <input
+                  fullWidth
+                  name="fileName"
+                  type="text"
+                  nbInput
+                  readonly
+                  [(ngModel)]="data.nomeFoto"
+                  placeholder="Nome do Arquivo"
+                  value="true"
+                  (blur)="validaObrigatoriedade('validFoto')"
+                />
+              </td>
+              <td style="width: 2%;"></td>
+              <td style="width: 10%;">
+                <mat-icon
+                  fullWidth
+                  style="font-size: xx-large;"
+                  *ngIf="editar && data.foto != null && data.foto.length > 0"
+                  tooltip="Enviar para  novo tipo de serviço"
+                  placement="top"
+                  delay="500"
+                  (click)="downloadPictureServer(data)"
+                  >save_alt</mat-icon
+                >
+              </td>
+              <td style="width: 3%;"></td>
+
+              <td style="width: 20%;">
+                <button
+                  fullWidth
+                  style="float:right;background-color:#777777;border-color: #777777;"
+                  (click)="fileInput.click()"
+                  nbButton
+                >
+                  <input
+                    #fileInput
+                    type="file"
+                    (change)="handleFileInput($event)"
+                    style="display:none;"
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
+
+                  Selecionar
+                </button>
+              </td>
+            </tr>
+          </table>
+
+          <div [hidden]="validFoto" class="alert alert-danger">
+            É obrigatório a seleção de uma imagem para o tipo de serviço.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>Descrição</label>
+          <div class="md-form md-outline">
+            <textarea
+              placeholder="Descrição"
+              type="text"
+              [(ngModel)]="data.descricao"
+              id="form75"
+              class="form-control md-textarea"
+              rows="3"
+              maxlength="300"
+              mdbInput
+              (blur)="validaObrigatoriedade('validDescricao')"
+            ></textarea>
+          </div>
+          <div [hidden]="validDescricao" class="alert alert-danger">
+            Campo descrição é obrigatório e deve ser preenchido.
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer style="text-align: right ;">
+    <button
+      style="text-align: left; margin: 10PX;"
+      nbButton
+      (click)="save()"
+      tooltip="Salvar registro"
+      placement="top"
+      delay="500"
+    >
+      SALVAR
+    </button>
+    <button
+      style="text-align: right;background-color: #F0AD4E; border-color:  #F0AD4E;"
+      nbButton
+      (click)="close()"
+      tooltip="Cancelar"
+      placement="top"
+      delay="500"
+    >
+      Fechar
+    </button>
+  </nb-card-footer>
+</nb-card>

@@ -1,0 +1,38 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-md-6">
+        Cadastro de grupo
+      </div>
+      <div class="col-md-6 new-button">
+        <button
+          size="small"
+          *ngIf="
+            uService.validatePermissions(
+              uService.getEnumPermissions().CadastrarGrupo
+            )
+          "
+          nbButton
+          (click)="newValue()"
+          style="background-color: #552c56; 
+          border-color: #552c56;"
+          tooltip="Cadastrar novo Grupo"
+          placement="top"
+          delay="500"
+        >
+          NOVO
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <app-data-table
+      id="tabelaGrupos"
+      *ngIf="data.length > 0"
+      [data]="data"
+      [defaultColumns]="columns"
+      [totalRecords]="totalRecords"
+      (pageChanged)="changePage($event)"
+    ></app-data-table>
+  </nb-card-body>
+</nb-card>

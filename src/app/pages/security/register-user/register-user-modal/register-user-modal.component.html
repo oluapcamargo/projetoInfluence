@@ -1,0 +1,96 @@
+<nb-card>
+  <nb-card-header style="background-color:#E1E1FF; color: #6A6AD4;"
+    >Cadastro de usuário</nb-card-header
+  >
+  <nb-card-body>
+    <div class="form">
+      <form #usuario="ngForm">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>Nome</label>
+            <input
+              name="nome"
+              type="text"
+              class="form-control"
+              (blur)="validacaoNome()"
+              nbInput
+              required
+              fullWidth
+              [(ngModel)]="data.nome"
+            />
+            <div [hidden]="!validName" class="alert alert-danger">
+              Campo de preenchimento obrigatório.
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Email</label>
+            <input
+              name="email"
+              type="email"
+              nbInput
+              fullWidth
+              required
+              (blur)="validacaoEmail()"
+              [email]="true"
+              [(ngModel)]="data.email"
+              placeholder="Email"
+              required
+              minlength="5"
+            />
+            <div [hidden]="validEmail" class="alert alert-danger">
+              E-mail inválido.
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label>Telefone</label>
+          <input
+            name="telefone"
+            type="text"
+            mask="(00) 00000-0000"
+            nbInput
+            fullWidth
+            [(ngModel)]="data.telefone"
+            placeholder="Telefone"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="initial">Perfil</label>
+          <nb-select
+            (ngModelChange)="fetchGroups($event)"
+            fullWidth
+            [(selected)]="grupoCodigo"
+            [(ngModel)]="data.grupo"
+            (ngModelChange)="fetchGroups($event)"
+            fullWidth
+            bindLabel="Grupo"
+            bindValue="id"
+            placeholder="Selecione um grupo"
+          >
+            <nb-option
+              *ngFor="let userType of userTypes"
+              [value]="userType.nome"
+              >{{ userType.nome }}
+            </nb-option>
+          </nb-select>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer style="text-align: right ;">
+    <button style="text-align: left; margin: 10PX;" nbButton (click)="save()">
+      SALVAR
+    </button>
+
+    <button
+      style="text-align: right;background-color: #F0AD4E; border-color:  #F0AD4E;"
+      nbButton
+      (click)="close()"
+    >
+      Fechar
+    </button>
+  </nb-card-footer>
+</nb-card>

@@ -1,0 +1,129 @@
+<nb-card size="large">
+  <nb-card-header
+    size="large"
+    style="background-color:#E1E1FF; color: #6A6AD4;"
+  >
+    Cadastro de Estabelecimentos
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="storeForm" novalidate>
+      <div class="form-group col-md-11">
+        <div class="row">
+          <div class="form-group col-md-2">
+            <label for="documento" class="input-title">CNPJ/CPF *</label>
+            <input
+              fullWidth
+              required
+              nbInput
+              name="documento"
+              id="documento"
+              type="text"
+              mask="000.000.000-00||00.000.000/0000-00"
+              formControlName="documento"
+            />
+            <!-- <app-erros-input
+                  [form]="storeForm"
+                  [campo]="'cnpj'"
+                ></app-erros-input> -->
+          </div>
+          <div class="form-group col-md-9">
+            <label fullWidth>Nome</label>
+            <input
+              name="nome"
+              fullWidth
+              type="text"
+              nbInput
+              placeholder="Nome"
+              formControlName="nome"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-2">
+            <label fullWidth>Telefone</label>
+            <input
+              name="telefone"
+              fullWidth
+              type="text"
+              nbInput
+              mask="(00)00000-0000"
+              placeholder="( )    -    "
+              formControlName="telefone"
+            />
+            <div [hidden]="!telefonValid" class="alert alert-danger">
+              Nº endereço é de informe obrigatório.
+            </div>
+          </div>
+          <div class="form-group col-md-9">
+            <label fullWidth>E-mail</label>
+            <br />
+            <input
+              name="email"
+              fullWidth
+              type="email"
+              nbInput
+              placeholder="E mail"
+              formControlName="email"
+            />
+            <div [hidden]="!emailValid" class="alert alert-danger">
+              Email é de informe obrigatório.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label fullWidth>Senha</label>
+            <input
+              name="password"
+              fullWidth
+              type="password"
+              nbInput
+              formControlName="password"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label fullWidth>Confirmação de senha</label>
+            <br />
+            <input
+              name="passwordConfirm"
+              fullWidth
+              type="password"
+              nbInput
+              (onblur)="validacaoSenhaContraSenha()"
+              formControlName="passwordConfirm"
+            />
+          </div>
+          <br />
+          <div [hidden]="!confSenhaValid" class="alert alert-danger">
+            Confirmação de senha deve ser igual a senha.
+          </div>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer style="text-align: right ;">
+    <button
+      style="text-align: left; margin: 10PX;"
+      nbButton
+      id="buttonSalvar"
+      (click)="newStore()"
+      tooltip="Salvar registro"
+      placement="top"
+      delay="500"
+    >
+      SALVAR
+    </button>
+    <button
+      style="text-align: right;background-color: #F0AD4E; border-color:  #F0AD4E;"
+      nbButton
+      (click)="goBack()"
+      tooltip="Cancelar"
+      placement="top"
+      delay="500"
+    >
+      Fechar
+    </button>
+  </nb-card-footer>
+</nb-card>

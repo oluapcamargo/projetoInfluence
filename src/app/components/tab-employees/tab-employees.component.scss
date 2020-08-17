@@ -1,0 +1,31 @@
+table {
+  border-collapse: collapse;
+  font-size: 12px;
+  table-layout: auto;
+  width: 100%;
+  margin-top: 10px;
+}
+
+table,
+th,
+td {
+  padding: 10px;
+  border: 0.01rem solid rgb(243, 243, 243);
+  // white-space: nowrap;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.tooltip {
+  border: 1px solid black;
+  width: 230px;
+  margin-left: 58px;
+  margin-top: -35px;
+  background-color: darkcyan;
+  border-radius: 4px;
+  height: 20px;
+  color: white;
+}

@@ -1,0 +1,206 @@
+<nb-card size="large">
+  <nb-card-header>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label fullWidth>Nome do Estabelecimento</label>
+        <input
+          name="nome"
+          type="text"
+          nbInput
+          fullWidth
+          placeholder="Nome"
+          [(ngModel)]="filter.nome"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label fullWidth>Qtd. de dias sem venda</label><br />
+        <input
+          style="width: 40%;"
+          name="vigenciaInicio"
+          halfWidth
+          type="number"
+          nbInput
+          placeholder="qtd mmínima"
+          [(ngModel)]="filter.qtdDiasMinSemVenda"
+        />
+        <a>até</a>
+        <input
+          style="width: 40%;"
+          name="vigenciaFim"
+          type="number"
+          halfWidth
+          nbInput
+          placeholder="qtd máxima"
+          [(ngModel)]="filter.qtdDiasMaxSemVenda"
+        />
+      </div>
+      <div class="form-group col-md-4">
+        <label fullWidth>Nº de vendas realizadas no último mês</label><br />
+        <input
+          style="width: 40%;"
+          name="vigenciaInicio"
+          halfWidth
+          type="number"
+          nbInput
+          placeholder="qtd mmínima"
+          [(ngModel)]="filter.qtdVendasMinUltimoMes"
+        />
+        <a>até</a>
+        <input
+          style="width: 40%;"
+          name="vigenciaFim"
+          type="number"
+          halfWidth
+          nbInput
+          placeholder="qtd máxima"
+          [(ngModel)]="filter.qtdVendasMaxUltimoMes"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label fullWidth>UF</label><br />
+        <nb-select
+          halfWidth
+          (selectedChange)="fetchMunicipios($event)"
+          selected="selectedItem"
+          [(ngModel)]="filter.uf"
+        >
+          <nb-option value="0">Selecione o UF</nb-option>
+          <nb-option *ngFor="let uf of Estados" [value]="uf.id">{{
+            uf.nome
+          }}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Município</label><br />
+        <nb-select
+          halfWidth
+          selectedChange
+          selectedChange="municipio"
+          (selectedChange)="fetchBairros($event)"
+          selected="selectedItem"
+          [(ngModel)]="filter.municipio"
+        >
+          <nb-option *ngFor="let muni of Municipio" [value]="muni.id">{{
+            muni.nome
+          }}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <label fullWidth>Bairro</label><br />
+        <nb-select
+          halfWidth
+          selectedChange="municipio"
+          selectedChange="itemChanged.emit(sid)"
+          selected="selectedItem"
+          [(ngModel)]="filter.bairro"
+        >
+          <nb-option *ngFor="let bairro of Bairro" [value]="bairro.id">{{
+            bairro.nome
+          }}</nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group col-md-3">
+        <br />
+        <mat-icon (click)="searchEstabelecimento()">search</mat-icon>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="form-group col-md-12">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <nb-card size="medium">
+            <nb-card-header>
+              Estabelecimentos ({{ estabelecimentosAdd.length }})
+              <br />
+              <div class="checkAllGsys">
+                <nb-checkbox (checkedChange)="AddAll($event)"
+                  >Todos</nb-checkbox
+                >
+              </div>
+            </nb-card-header>
+
+            <nb-card-body class="nopadding">
+              <small *ngIf="estabelecimentosAdd.length <= 0"
+                >Não há Estabelecimentos listados</small
+              >
+              <nb-list *ngIf="estabelecimentosAdd.length > 0">
+                <nb-list-item
+                  *ngFor="let estabelecimentos of estabelecimentosAdd"
+                >
+                  <nb-checkbox
+                    (checkedChange)="setPermission(estabelecimentos.id, $event)"
+                    [checked]="estabelecimentos.check"
+                  >
+                    {{ estabelecimentos.nome }}</nb-checkbox
+                  >
+                </nb-list-item>
+              </nb-list>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div class="form-group col-md-1 btn-actions">
+          <button
+            nbTooltip="Remover Estabelecimento"
+            nbTooltipPlacement="top"
+            nbTooltipStatus="danger"
+            nbButton
+            status="danger"
+            [disabled]="EstabelecimentoToAddedTemp.length === 0"
+            (click)="removeEstabelecimentosInUser()"
+          >
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+          </button>
+          <br />
+          <button
+            nbTooltip="Adicionar estabelecimento"
+            nbTooltipPlacement="bottom"
+            nbTooltipStatus="success"
+            nbButton
+            status="success"
+            [disabled]="EstabelecimentoToAddTemp.length === 0"
+            (click)="setEstabelecimentoInUser()"
+          >
+            <nb-icon icon="arrow-forward-outline"></nb-icon>
+          </button>
+        </div>
+        <div class="form-group col-md-4">
+          <nb-card size="medium">
+            <nb-card-header>
+              Estabelecimentos adicionados ({{ estabelecimentosAdded.length }})
+              <br />
+              <div class="checkAllGsys">
+                <nb-checkbox
+                  (checkedChange)="EstabelecimentoAddedAll($event)"
+                  [checked]="checkRemove"
+                  >Todos
+                </nb-checkbox>
+              </div>
+            </nb-card-header>
+            <nb-card-body class="nopadding">
+              <small *ngIf="estabelecimentosAdded.length <= 0"
+                >Não há estabelecimentos adicionadas</small
+              >
+              <nb-list *ngIf="estabelecimentosAdded.length > 0">
+                <nb-list-item
+                  *ngFor="let estabelecimentoAdded of estabelecimentosAdded"
+                >
+                  <nb-checkbox
+                    (checkedChange)="
+                      setPermissionsadded(estabelecimentoAdded.id, $event)
+                    "
+                    [checked]="estabelecimentoAdded.check"
+                    >{{ estabelecimentoAdded.nome }}</nb-checkbox
+                  >
+                </nb-list-item>
+              </nb-list>
+            </nb-card-body>
+          </nb-card>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

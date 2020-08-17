@@ -1,0 +1,247 @@
+@import "themes";
+@import "variables.scss";
+@import "~@nebular/theme/styles/globals";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+/* Override theme of nebular */
+@include nb-install() {
+  @include nb-theme-global();
+}
+
+/* Override */
+
+.nb-theme-isalontheme nb-menu .menu-item .menu-icon {
+  margin: 0.2rem !important;
+}
+
+.nb-theme-isalontheme [nbInput].status-basic:focus {
+  background-color: #edf1f7;
+  border-color: #e4e9f2;
+}
+
+.nb-theme-isalontheme nb-menu .menu-item .menu-icon {
+  font-size: 1.25rem;
+}
+
+.nb-theme-isalontheme nb-layout-header nav {
+  box-shadow: 0 0.5rem 1.25rem 0 rgba(218, 224, 235, 0.6) !important;
+}
+
+.menu-item a .menu-title {
+  margin-left: 5px;
+}
+
+nb-sidebar,
+nb-sidebar > div.main-container {
+  transition: width 0.2s;
+}
+
+nb-stepper > div.header {
+  margin: 0 36px;
+}
+
+.nb-theme-isalontheme nb-sidebar {
+  box-shadow: 0 0.5rem 1rem 0 rgba(44, 51, 73, 0.1);
+}
+
+div#loading-bar-spinner {
+  right: 10px !important;
+  left: unset !important;
+}
+
+.nb-theme-isalontheme nb-select .select-button {
+  min-width: unset;
+}
+
+.ng-option {
+  font-weight: bold;
+}
+
+.ng-select.custom > .ng-select-container {
+  height: 40px;
+  background-color: #f7f9fc;
+  border-color: #e4e9f2;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.17rem;
+}
+
+.ng-select.custom > .ng-select-container.ng-has-value {
+  font-weight: bold !important;
+}
+
+.ng-select.custom > .ng-select-container:hover {
+  cursor: pointer;
+}
+
+.ng-select.custom
+  > .ng-select-container
+  > .ng-value-container
+  > .ng-input
+  > input:hover {
+  cursor: pointer;
+}
+
+.ng-select.custom.ng-select-disabled > .ng-select-container {
+  background-color: #e1e5e6;
+}
+
+.ng-select.custom.ng-select-disabled
+  > .ng-select-container
+  > .ng-value-container
+  > .ng-input
+  > input:hover {
+  cursor: default;
+}
+
+.ng-select.custom.ng-select-disabled > .ng-select-container:hover {
+  cursor: default;
+}
+
+.ng-select.custom.ng-select-disabled > .ng-select-container *:hover {
+  color: #999999 !important;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened)
+  > .ng-select-container:not(.ng-select-disabled) {
+  background-color: #f7f9fc;
+  border-color: #e4e9f2;
+  box-shadow: unset !important;
+}
+
+.ng-select.custom > .ng-select-disabled {
+  background-color: #e1e5e6;
+  border-color: #e1e5e6;
+}
+
+.ng-select .ng-select-container:hover {
+  box-shadow: unset !important;
+}
+
+ng-select.ng-invalid.ng-touched .ng-select-container {
+  border-color: #ff3d71;
+}
+
+.ng-arrow:hover,
+.ng-arrow-wrapper:hover {
+  color: #999999;
+}
+
+nb-checkbox > label:hover {
+  cursor: pointer !important;
+}
+
+/* Fim do Overide */
+
+/* Estilização global */
+
+.detail-button {
+  text-decoration: none;
+  cursor: pointer;
+  color: #36f !important;
+}
+
+a {
+  outline: none !important;
+}
+
+.remove {
+  display: none !important;
+}
+
+.label-error {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px;
+}
+
+.label-error span {
+  color: red;
+  font-size: 10px;
+}
+
+.btn-back-gs {
+  margin-bottom: 2.5em;
+}
+
+.text-gray {
+  color: $greyLetters;
+}
+
+.title-gray {
+  color: $greyLetters;
+  font-weight: bold;
+}
+
+.divider,
+.separator {
+  border-bottom: 1px solid #edf1f7;
+  height: 2px;
+  margin: 25px 0px;
+  /* background-image: linear-gradient(to right, transparent, #ccc, transparent); */
+}
+
+.badge-status {
+  &.info {
+    color: #274bdb;
+    background: aliceblue;
+  }
+  &.success {
+    color: #00d68f;
+    background: #f0fff7;
+  }
+  &.warning {
+    color: #ffaa00;
+    background: #fdfff0;
+  }
+  &.danger {
+    color: #ff3d71;
+    background: #fff0f0;
+  }
+
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 5px 20px;
+  max-width: fit-content;
+  text-align: center;
+}
+
+.nb-theme-isalontheme nb-tabset .tab.active .tab-link {
+  color: $pallet-3;
+}
+
+.nb-theme-isalontheme nb-tabset .tab.active .tab-link::before {
+  background-color: $pallet-3;
+}
+
+.nb-theme-isalontheme nb-tabset .tab:hover .tab-link {
+  color: #b16da8;
+}
+
+.nb-theme-isalontheme nb-tabset .tab:hover .tab-link::before {
+  background-color: #b16da8;
+}
+
+/* Fim da estilização global */
+
+/* Scroll */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Scroll End */

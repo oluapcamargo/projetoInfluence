@@ -1,0 +1,436 @@
+<nb-card>
+  <nb-card-header style="background-color:#E1E1FF; color: #6A6AD4;"
+    >Cadastro de Promoções</nb-card-header
+  >
+  <nb-card-body>
+    <div class="form">
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label>Título</label>
+          <input
+            name="nome"
+            type="text"
+            nbInput
+            required
+            fullWidth
+            [(ngModel)]="data.descricao"
+            placeholder="Nome"
+          />
+        </div>
+        <div class="form-group col-md-5">
+          <label style="width: 100%;">Vigência</label>
+          <input
+            style="width: 45%;"
+            name="vigenciaInicio"
+            halfWidth
+            type="date"
+            nbInput
+            (blur)="validaValor('dataInicioVigencia')"
+            [(ngModel)]="data.dataInicioVigencia"
+            placeholder="Data Inicio da Vigência"
+          />
+          <a>até</a>
+          <input
+            style="width: 45%;"
+            name="vigenciaFim"
+            type="date"
+            halfWidth
+            nbInput
+            (blur)="validaValor('dataFimVigencia')"
+            [(ngModel)]="data.dataFimVigencia"
+            placeholder="Data Fim da Vigência"
+          />
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="initial">Situação</label>
+          <input
+            name="situacao"
+            type="text"
+            readonly
+            nbInput
+            fullWidth
+            [(ngModel)]="data.situacaoString"
+            placeholder="Ativo"
+            value="true"
+          />
+        </div>
+      </div>
+      <div class="row" *ngIf="!validTitulo || !validVigencia">
+        <div class="form-group col-md-4">
+          <div [hidden]="validTitulo" class="alert alert-danger">
+            É obrigatório cadastrar um título para a promoção.
+          </div>
+        </div>
+        <div class="form-group col-md-5">
+          <div
+            [hidden]="validVigencia"
+            class="alert alert-danger"
+            style="width: 94%;"
+          >
+            É obrigatório cadastrar um período de vigência para a promoção.
+          </div>
+        </div>
+        <div class="form-group col-md-3"></div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>Subtitulo</label>
+          <div class="md-form md-outline">
+            <textarea
+              placeholder="Subtitulo"
+              type="text"
+              [(ngModel)]="data.descricaoSubtitulo"
+              id="form75"
+              class="form-control md-textarea"
+              rows="3"
+              mdbInput
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12" *ngIf="!validDescSubTitulo">
+        <div
+          [hidden]="validDescSubTitulo"
+          class="alert alert-danger"
+          style="width: 94%;"
+        >
+          Descrição do subtítulo é de preenchimento obrigatório.
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label>Tipo da Promoção</label>
+          <nb-select
+            (ngModelChange)="tipoPromocaoOnChange($event)"
+            fullWidth
+            bindLabel="name"
+            bindValue="id"
+            [(selected)]="tipoPromocao"
+            [(ngModel)]="data.tipo"
+            placeholder="Selecione o Tipo de Promoção"
+          >
+            <nb-option
+              *ngFor="let tipoPromocao of TipoPromocao"
+              [value]="tipoPromocao.id"
+              >{{ tipoPromocao.name }}
+            </nb-option>
+          </nb-select>
+        </div>
+        <div class="form-group col-md-2">
+          <label>Valor do Cupom</label>
+          <input
+            id="valorCupom"
+            name="valorCupom"
+            type="number"
+            nbInput
+            min="0"
+            [readonly]="tipo"
+            required
+            fullWidth
+            [(ngModel)]="data.valor"
+          />
+        </div>
+        <div class="form-group col-md-2">
+          <label>% de Desconto</label>
+          <input
+            name="percentualDesconto"
+            id="percentualDesconto"
+            type="number"
+            [readonly]="!tipo"
+            nbInput
+            min="0"
+            required
+            fullWidth
+            [(ngModel)]="data.percentualDesconto"
+          />
+        </div>
+        <div class="form-group col-md-2">
+          <label>Valor Mínimo da compra</label>
+          <input
+            name="nome"
+            type="number"
+            nbInput
+            min="0"
+            required
+            fullWidth
+            [(ngModel)]="data.valorMinimoCompra"
+          />
+        </div>
+        <div class="form-group col-md-2">
+          <label>Qtd. Máxima de cupons</label>
+          <input
+            name="nome"
+            type="number"
+            nbInput
+            required
+            min="0"
+            fullWidth
+            [(ngModel)]="data.quantidadeMaximaCupons"
+          />
+        </div>
+        <div
+          class="row col-md-12"
+          *ngIf="
+            !validTipo ||
+            !validValor ||
+            !validPercentualDesconto ||
+            !validValorMinimo ||
+            !validQtdMaxima
+          "
+        >
+          <div class="form-group col-md-4">
+            <div [hidden]="validTipo" class="alert alert-danger">
+              É obrigatório a escolha do tipo de promoção.
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div [hidden]="validValor" class="alert alert-danger">
+              É obrigatório cadastrar um valor de desconto para a promoção.
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div [hidden]="validPercentualDesconto" class="alert alert-danger">
+              É obrigatório cadastrar um percentual de desconto para a promoção.
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div [hidden]="validValorMinimo" class="alert alert-danger">
+              É obrigatório cadastrar um valor mínimo de compra para a promoção.
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div [hidden]="validQtdMaxima" class="alert alert-danger">
+              É obrigatório cadastrar a quantidade máxima de cupons.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-3">
+          <label>Quantidade de cupons utilizados</label>
+          <input
+            name="nome"
+            type="text"
+            nbInput
+            readonly
+            required
+            fullWidth
+            [(ngModel)]="data.quantidadeCuponsUtilizados"
+            readonly
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label>Valor total das compras efetuadas com o cupom</label>
+          <input
+            name="nome"
+            type="text"
+            nbInput
+            required
+            readonly
+            fullWidth
+            [(ngModel)]="valorTotalArrecadadoCupom"
+            readonly
+            disabled
+          />
+        </div>
+      </div>
+      <!-- A partir daqui são os tabs-->
+
+      <mat-tab-group>
+        <mat-tab label="Estabelecimentos">
+          <app-tab-store-promotion
+            [data]="filtroTabStoreInput"
+            (dataStorePromotionModal)="eventTabStore($event)"
+          >
+          </app-tab-store-promotion>
+        </mat-tab>
+        <mat-tab label="Clientes">
+          <nb-card size="large">
+            <nb-card-header style="border: hidden;">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label fullWidth>Qtd. de dias sem compra</label><br />
+                  <input
+                    style="width: 40%;"
+                    name="diassemcompramin"
+                    halfWidth
+                    type="number"
+                    nbInput
+                    placeholder="qtd mmínima"
+                    [(ngModel)]="data.quantidadeMinimaDiasSemCompra"
+                  />
+                  <a>até</a>
+                  <input
+                    style="width: 40%;"
+                    name="diassemcompramax"
+                    type="number"
+                    halfWidth
+                    nbInput
+                    placeholder="qtd máxima"
+                    [(ngModel)]="data.quantidadeMaximaDiasSemCompra"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label fullWidth
+                    >Já usou cupom ou desconto anteriormente?</label
+                  ><br />
+                  <nb-select
+                    halfWidth
+                    selected="usouCupomantes"
+                    [(ngModel)]="data.flagUsouCupom"
+                  >
+                    <nb-option value="0">Não</nb-option>
+                    <nb-option value="1">Sim</nb-option>
+                  </nb-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label fullWidth
+                    >Nº. de compras realizadas no ultimo mês</label
+                  ><br />
+                  <input
+                    style="width: 40%;"
+                    name="numerocomprasultimomesmin"
+                    halfWidth
+                    type="number"
+                    nbInput
+                    placeholder="qtd mmínima"
+                    [(ngModel)]="data.numeroMinimoComprasRealizadas"
+                  />
+                  <a>até</a>
+                  <input
+                    style="width: 40%;"
+                    name="numerocomprasultimomesmax"
+                    type="number"
+                    halfWidth
+                    nbInput
+                    placeholder="qtd máxima"
+                    [(ngModel)]="data.numeroMaximoComprasRealizadas"
+                  />
+                </div>
+                <div class="form-group col-md-4">
+                  <label fullWidth
+                    >Valor das compras realizadas no ultimo mês</label
+                  ><br />
+                  <input
+                    style="width: 40%;"
+                    name="valorcomprasultimomesmin"
+                    halfWidth
+                    type="number"
+                    nbInput
+                    placeholder="qtd mmínima"
+                    [(ngModel)]="data.valorMinimoComprasRealizadas"
+                  />
+                  <a>até</a>
+                  <input
+                    style="width: 40%;"
+                    name="valorcomprasultimomesmax"
+                    type="number"
+                    halfWidth
+                    nbInput
+                    placeholder="qtd máxima"
+                    [(ngModel)]="data.valorMaximoComprasRealizadas"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label fullWidth>Idade</label><br />
+                  <input
+                    style="width: 40%;"
+                    name="idademin"
+                    halfWidth
+                    type="number"
+                    nbInput
+                    placeholder="qtd mmínima"
+                    [(ngModel)]="data.idadeMinima"
+                  />
+                  <a>até</a>
+                  <input
+                    style="width: 40%;"
+                    name="idademax"
+                    type="number"
+                    halfWidth
+                    nbInput
+                    placeholder="qtd máxima"
+                    [(ngModel)]="data.idadeMaxima"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label fullWidth>UF</label><br />
+                  <nb-select
+                    halfWidth
+                    (selectedChange)="fetchMunicipios($event)"
+                    selected="selectedItem"
+                    [(ngModel)]="data.estadoId"
+                  >
+                    <nb-option value="0">Selecione o UF</nb-option>
+                    <nb-option *ngFor="let uf of Estados" [value]="uf.id">{{
+                      uf.nome
+                    }}</nb-option>
+                  </nb-select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label fullWidth>Município</label><br />
+                  <nb-select
+                    halfWidth
+                    selectedChange
+                    selectedChange="municipio"
+                    selected="selectedItem"
+                    [(ngModel)]="data.municipioId"
+                  >
+                    <nb-option
+                      *ngFor="let muni of Municipio"
+                      [value]="muni.id"
+                      >{{ muni.nome }}</nb-option
+                    >
+                  </nb-select>
+                </div>
+              </div>
+              <div class="row">
+                <b
+                  >* Os parâmetros acima serão utilizados para buscar os
+                  clientes que receberão o cupom ou desconto.</b
+                >
+              </div>
+            </nb-card-header>
+          </nb-card>
+        </mat-tab>
+        <mat-tab label="Serviço">
+          <app-tab-services-promotion
+            [data]="filtroTabServiceInput"
+            (dataServicePromotionModal)="eventTabService($event)"
+          ></app-tab-services-promotion>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </nb-card-body>
+  <nb-card-footer style="text-align: right ;">
+    <button
+      style="text-align: left; margin: 10PX;"
+      nbButton
+      (click)="save()"
+      tooltip="Salvar registro"
+      placement="top"
+      delay="500"
+    >
+      SALVAR
+    </button>
+    <button
+      style="text-align: right;background-color: #F0AD4E; border-color:  #F0AD4E;"
+      nbButton
+      (click)="close()"
+      tooltip="Cancelar"
+      placement="top"
+      delay="500"
+    >
+      Fechar
+    </button>
+  </nb-card-footer>
+</nb-card>

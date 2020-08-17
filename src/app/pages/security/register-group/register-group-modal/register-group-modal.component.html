@@ -1,0 +1,61 @@
+<nb-card>
+  <nb-card-header>Cadastro de Grupo</nb-card-header>
+  <nb-card-body>
+    <div class="form">
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>Nome</label>
+          <input
+            name="nome"
+            type="text"
+            nbInput
+            fullWidth
+            [readonly]="!data.situacao"
+            [(ngModel)]="data.nome"
+            placeholder="Nome"
+            (blur)="validacaoNome()"
+          />
+          <div [hidden]="validNome" class="alert alert-danger">
+            Nome do grupo é obrigatório.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label>Descrição</label>
+          <input
+            name="Descrição"
+            type="text"
+            nbInput
+            [readonly]="!data.situacao"
+            fullWidth
+            [(ngModel)]="data.descricao"
+            (blur)="validacaoDescricao()"
+            placeholder="Descrição"
+          />
+          <div [hidden]="validDescricao" class="alert alert-danger">
+            Descrição do grupo é obrigatório.
+          </div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer style="text-align: right ;">
+    <button
+      style="text-align: left; margin: 10PX;"
+      *ngIf="this.data.nome != 'Administrador' && this.data.situacao"
+      nbButton
+      (click)="save()"
+    >
+      SALVAR
+    </button>
+
+    <button
+      style="text-align: right;background-color: #F0AD4E; border-color:  #F0AD4E;"
+      nbButton
+      (click)="close()"
+    >
+      Fechar
+    </button>
+  </nb-card-footer>
+</nb-card>

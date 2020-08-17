@@ -1,0 +1,37 @@
+<div
+  *ngIf="
+    form && campo && form.controls[campo].touched && form.controls[campo].errors
+  "
+  class="mt-2"
+>
+  <span class="text-danger" *ngIf="form.controls[campo].errors.cpfvalidator">
+    * O CPF informado é inválido.
+  </span>
+  <span class="text-danger" *ngIf="form.controls[campo].errors.cnpjvalidator">
+    * O CNPJ informado é inválido.
+  </span>
+  <span class="text-danger" *ngIf="form.controls[campo].errors.email">
+    * O e-mail informado está em um formato incorreto (deveria se assemelhar a:
+    email@provedor.com).
+  </span>
+  <span class="text-danger" *ngIf="form.controls[campo].errors.minlength">
+    * O campo {{ campo }} precisa ter no mínimo
+    {{ form.controls[campo].errors.minlength.requiredLength }} dígitos, sem
+    considerar as pontuações.
+  </span>
+  <span class="text-danger" *ngIf="form.controls[campo].errors.maxlength">
+    * O campo {{ campo }} precisa ter no máximo
+    {{ form.controls[campo].errors.maxlength.requiredLength }} dígitos,
+    considerando as pontuações.
+  </span>
+  <span class="text-danger" *ngIf="form.controls[campo].errors.mask">
+    * O campo {{ campo }} está em um formato incorreto (deveria se assemelhar a:
+    {{ form.controls[campo].errors.mask.requiredMask }}).
+  </span>
+  <span
+    class="text-danger"
+    *ngIf="form.controls[campo].touched && form.controls[campo].errors.required"
+  >
+    {{ mensagemObrigatorio }}
+  </span>
+</div>
