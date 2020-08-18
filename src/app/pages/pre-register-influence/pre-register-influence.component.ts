@@ -20,6 +20,11 @@ import { UserAdd } from "src/app/models/userAdd";
 export class PreRegisterInfluenceComponent implements OnInit {
   data = new UserAdd();
   mask = "";
+  momentodaVida = [];
+  religioes= [];
+  listaIdiomas=[];
+  listaProfissao =[];
+  listaNivelEducacional =[];
   Estados: ItemNgSelect[] = [
     {
       id: 1,
@@ -38,7 +43,6 @@ export class PreRegisterInfluenceComponent implements OnInit {
       label: "São Paulo"
     }
   ];
-
   Municipio: ItemNgSelect[] = [
     {
       id: 1,
@@ -76,14 +80,111 @@ export class PreRegisterInfluenceComponent implements OnInit {
     nome: ["", [Validators.required, Validators.maxLength(100)]],
     email: ["", [Validators.required, Validators.email]],
     telefone: ["", [Validators.required, Validators.maxLength(100)]],
+    comomedescrevo: ["", [Validators.required]],
+    temasInfluencia: ["", [Validators.required]],
+    nivelEducacional: ["", [Validators.required]],
+    
+    profissao: ["", [Validators.required]],
+
+    dtNascimento: ["", [Validators.required]],
+    religiao: ["", [Validators.required]],
+    tipoEstabelecimento: ["", [Validators.required]],
+
+    // filhos: ["", [Validators.required]],
     password: ["", [Validators.required, Validators.maxLength(100)]],
     passwordConfirm: ["", [Validators.required, Validators.maxLength(100)]]
   });
 
   ngOnInit() {
+    this.listaIdiomas = [];
     this.data = new UserAdd();
+    this.listarMomentosDaVida();
+    this.listarReligiao();
   }
 
+  listarMomentosDaVida(){
+    this.utilService.getMomentoDaVida().subscribe(
+      res => {
+        if (res.hasSuccess) {
+            this.momentodaVida = res.value;
+            let teste = 10;
+
+        } else
+          this.nbToastrService.danger("Falha ao carregar momentos da vida", {
+            duration: 5000
+          });
+        },
+        () => {
+          let teste = 10;
+          this.nbToastrService.danger("Falha ao remover o registro", "Falha", {
+            duration: 2000
+          });
+        });
+  }
+
+  listarReligiao(){
+    this.utilService.getReligiao().subscribe(
+      res => {
+        if (res.hasSuccess) {
+          this.religioes = res.value;
+          this.listarNivelEducacional();
+          this.listarProfissao();
+          this.listarIdioma();
+        }else
+        {
+          this.nbToastrService.danger("Falha ao carregar religião", {
+            duration: 5000
+          });
+        } 
+      }
+    );
+  }
+
+  listarIdioma(){
+    this.utilService.getIdiomas().subscribe(
+      res => {
+        if (res.hasSuccess) {
+          this.listaIdiomas = res.value;
+     
+        }else
+        {
+          this.nbToastrService.danger("Falha ao carregar religião", {
+            duration: 5000
+          });
+        } 
+      }
+    );
+  }
+
+  listarProfissao(){
+    this.utilService.getProfissao().subscribe(
+      res => {
+        if (res.hasSuccess) {
+          this.listaProfissao = res.value;
+        }else
+        {
+          this.nbToastrService.danger("Falha ao carregar religião", {
+            duration: 5000
+          });
+        } 
+      }
+    );
+  } 
+  listarNivelEducacional(){
+    this.utilService.getNivelEducacional().subscribe(
+      res => {
+        if (res.hasSuccess) {
+          this.listaNivelEducacional = res.value;
+        }else
+        {
+          this.nbToastrService.danger("Falha ao carregar religião", {
+            duration: 5000
+          });
+        } 
+      }
+    );
+
+  }
   cpfcnpjmask() {
     const value = this.influenceForm.get("documento").value;
     console.log(value, value.length, this.influenceForm);

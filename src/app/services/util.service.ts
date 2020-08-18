@@ -35,4 +35,37 @@ export class UtilService {
       });
     });
   }
+
+  getMomentoDaVida()
+  {
+    return this.http.get<APIResponse>(
+      this.server.url(`/MomentoVida`)
+    );
+  }
+
+  getReligiao()
+  {
+    return this.http.get<APIResponse>(
+      this.server.url(`/Religiao`)
+    );
+  }
+
+  getNivelEducacional()
+  {
+    return this.http.get<APIResponse>(
+      this.server.url(`/NivelEducacional`)
+    );
+  }
+  getProfissao()
+  {
+    return this.http.get<APIResponse>(
+      this.server.url(`/Profissao`)
+    );
+  }
+  getIdiomas()
+  {
+    return this.http.get<APIResponse>(
+      this.server.url(`/Idiomas`)
+    );
+  }
 }

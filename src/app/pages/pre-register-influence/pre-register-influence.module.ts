@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { PreRegisterInfluenceComponent } from "./pre-register-influence.component";
 import { PreRegisterInfluenceRoutingModule } from "./pre-register-influence-routing.module";
 import { MatIconModule } from "@angular/material/icon";
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
@@ -15,6 +16,8 @@ import {
 } from "@nebular/theme";
 import { NgxMaskModule } from "ngx-mask";
 import { MatTabsModule } from "@angular/material/tabs";
+import { NgSelectModule } from "@ng-select/ng-select";
+
 
 // import { TabTipoServicoComponent } from "../../components/tab-tipo-servico/tab-tipo-servico.component";
 // import { TabEmployeesComponent } from "../../components/tab-employees/tab-employees.component";
@@ -28,8 +31,9 @@ import { MatTabsModule } from "@angular/material/tabs";
     NbLayoutModule,
     ReactiveFormsModule,
     NbSidebarModule,
-    NbSelectModule,
+    NbSelectModule,NgSelectModule,
     MatIconModule,
+    MatCheckboxModule,
     NbButtonModule,
     NbCardModule,
     MatTabsModule, // TabEmployeesComponent,
